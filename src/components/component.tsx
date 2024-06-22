@@ -171,7 +171,7 @@ export function Component() {
                     <div className="grid gap-1">
                       <h3 className="text-xl font-bold text-[#4CAF50]">Growth Tracking</h3>
                       <p className="text-[#6A6A6A]">
-                        Monitor your plants' progress and receive alerts for any changes in their health.
+                        Monitor your plants progress and receive alerts for any changes in their health.
                       </p>
                     </div>
                   </li>
