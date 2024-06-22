@@ -156,13 +156,7 @@ export function Component() {
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
-              <img
-                src="/images/bg-1.jpg"
-                width="550"
-                height="310"
-                alt="Image"
-                className="mx-auto aspect-video rounded overflow-hidden object-cover object-center sm:w-full lg:order-last"
-              />
+              <Image src="/images/bg-1.jpg" className="mx-auto aspect-video rounded overflow-hidden object-cover object-center sm:w-full lg:order-last" style={{borderRadius: "10px"}} alt="My Photo" width={550} height={310} />
               <div className="flex flex-col justify-center space-y-4">
                 <ul className="grid gap-6">
                   <li>
