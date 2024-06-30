@@ -36,13 +36,15 @@ export default function Component() {
 
   useEffect(() => {
     if (id) {
-      fetchPlantInfo(id)
+      const plantId = Array.isArray(id) ? id[0] : id
+      fetchPlantInfo(plantId)
     }
   }, [id])
 
   useEffect(() => {
-    if (user) {
-      checkUserGarden()
+    if (user && id) {
+      const plantId = Array.isArray(id) ? id[0] : id
+      checkUserGarden(plantId)
     }
   }, [user, id])
 
@@ -57,7 +59,7 @@ export default function Component() {
     }
   }
 
-  const checkUserGarden = async () => {
+  const checkUserGarden = async (plantId: string) => {
     try {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/gardens/user/${user._id}`,
@@ -68,7 +70,9 @@ export default function Component() {
         }
       )
       const garden = response.data
-      const plantExists = garden.plants.some((plant: Plant) => plant._id === id)
+      const plantExists = garden.plants.some(
+        (plant: Plant) => plant._id === plantId
+      )
       setIsPlantInGarden(plantExists)
     } catch (error) {
       console.error('Error checking user garden:', error)
