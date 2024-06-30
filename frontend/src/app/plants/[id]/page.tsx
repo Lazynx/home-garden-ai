@@ -9,10 +9,28 @@ import Image from 'next/image'
 import { useAuth } from '@/context/AuthContext'
 import axios from 'axios'
 
+// Интерфейс для описания структуры растения
+interface Plant {
+  _id: string
+  name: string
+  description: string
+  soilComposition: string
+  homeTemperature: string
+  sunlightExposure: string
+  image: string
+}
+
+// Интерфейс для описания структуры сада
+interface Garden {
+  _id: string
+  name: string
+  plants: Plant[]
+}
+
 export default function Component() {
   const { id } = useParams()
   const { user } = useAuth()
-  const [plantInfo, setPlantInfo] = useState(null)
+  const [plantInfo, setPlantInfo] = useState<Plant | null>(null)
   const [loading, setLoading] = useState(false)
   const [isPlantInGarden, setIsPlantInGarden] = useState(false)
 
@@ -28,7 +46,7 @@ export default function Component() {
     }
   }, [user, id])
 
-  const fetchPlantInfo = async (plantId) => {
+  const fetchPlantInfo = async (plantId: string) => {
     try {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/plants/${plantId}`
@@ -50,7 +68,7 @@ export default function Component() {
         }
       )
       const garden = response.data
-      const plantExists = garden.plants.some((plant) => plant._id === id)
+      const plantExists = garden.plants.some((plant: Plant) => plant._id === id)
       setIsPlantInGarden(plantExists)
     } catch (error) {
       console.error('Error checking user garden:', error)
@@ -68,7 +86,7 @@ export default function Component() {
           }
         }
       )
-      let garden
+      let garden: Garden
 
       if (response.status !== 200) {
         response = await axios.post(
@@ -171,7 +189,7 @@ export default function Component() {
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
-                    viewBox="0 0 24 24"
+                    viewBox="0 0 24"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
@@ -195,7 +213,7 @@ export default function Component() {
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
-                    viewBox="0 0 24 24"
+                    viewBox="0 0 24"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
