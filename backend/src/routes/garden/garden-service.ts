@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import Garden, { IGarden } from './models/garden'
+import Garden, { IGarden } from './models/Garden'
 
 class GardenService {
   async createGarden(
