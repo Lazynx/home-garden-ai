@@ -82,33 +82,39 @@ export default function Component() {
   const handleAddToGarden = async () => {
     setLoading(true)
     try {
-      let response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/gardens/user/${user._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.accessToken}`
-          }
-        }
-      )
-      let garden: Garden
-
-      if (response.status !== 200) {
-        response = await axios.post(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/gardens/create`,
-          {
-            name: `${user.username}'s Garden`,
-            userIds: [user._id],
-            plantIds: [id]
-          },
+      let response
+      try {
+        response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/gardens/user/${user._id}`,
           {
             headers: {
               Authorization: `Bearer ${user.accessToken}`
             }
           }
         )
-        garden = response.data
-      } else {
-        garden = response.data
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 404) {
+          response = await axios.post(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/gardens/create`,
+            {
+              name: `${user.username}'s Garden`,
+              userIds: [user._id],
+              plantIds: [id]
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${user.accessToken}`
+              }
+            }
+          )
+        } else {
+          throw error
+        }
+      }
+
+      let garden: Garden = response.data
+
+      if (!garden.plants.some((plant: Plant) => plant._id === id)) {
         await axios.post(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/gardens/add_plant`,
           {
@@ -122,6 +128,7 @@ export default function Component() {
           }
         )
       }
+
       setIsPlantInGarden(true)
     } catch (error) {
       console.error('Error adding plant to garden:', error)
