@@ -2,7 +2,6 @@ import PlantModel, { IPlant } from './models/Plant'
 import { uploadFile } from '../../middlewares/s3-middleware'
 import mongoose from 'mongoose'
 import openai from '../../openai'
-import axios from 'axios'
 
 class PlantService {
   private async *processStreamedJsonArray(
