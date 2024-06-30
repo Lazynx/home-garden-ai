@@ -8,8 +8,19 @@ import Footer from '@/components/Footer/footer'
 import Image from 'next/image'
 import axios from 'axios'
 
+// Определяем интерфейс для растения
+interface Plant {
+  _id: string
+  name: string
+  description: string
+  soilComposition: string
+  homeTemperature: string
+  sunlightExposure: string
+  image: string
+}
+
 export default function Component() {
-  const [plants, setPlants] = useState([])
+  const [plants, setPlants] = useState<Plant[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
