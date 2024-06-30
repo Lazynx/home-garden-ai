@@ -9,11 +9,27 @@ import Footer from '@/components/Footer/footer'
 import { useAuth } from '@/context/AuthContext'
 import axios from 'axios'
 
+interface Plant {
+  _id: string
+  name: string
+  description: string
+  soilComposition: string
+  homeTemperature: string
+  sunlightExposure: string
+  image: string
+}
+
+interface Garden {
+  _id: string
+  name: string
+  plants: Plant[]
+}
+
 export default function Home() {
   const { user } = useAuth()
   const router = useRouter()
-  const [garden, setGarden] = useState(null)
-  const [plants, setPlants] = useState([])
+  const [garden, setGarden] = useState<Garden | null>(null)
+  const [plants, setPlants] = useState<Plant[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
