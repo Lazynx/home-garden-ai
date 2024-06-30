@@ -209,7 +209,7 @@ export default function Component() {
         formData
       )
 
-      if (response.status !== 200 || response.status !== 201) {
+      if (response.status !== 201) {
         throw new Error('Failed to upload file')
       }
 
