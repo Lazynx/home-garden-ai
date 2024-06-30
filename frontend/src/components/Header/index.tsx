@@ -232,9 +232,8 @@
 //     </div>
 //   )
 // }
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/context/AuthContext'
 
@@ -242,7 +241,6 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const { user, logout } = useAuth()
-  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -271,8 +269,6 @@ export default function Header() {
     logout()
     setIsMenuOpen(false)
   }
-
-  const currentPath = router.pathname
 
   return (
     <div>
@@ -331,44 +327,36 @@ export default function Header() {
             </Button>
           </div>
           <div className="hidden lg:flex items-center">
-            {currentPath !== '/' && (
-              <Link
-                href="/"
-                className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
-                prefetch={false}
-              >
-                Главная
-              </Link>
-            )}
-            {currentPath !== '/scan' && (
-              <Link
-                href="/scan"
-                className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
-                prefetch={false}
-              >
-                Сканировать
-              </Link>
-            )}
-            {currentPath !== '/plants' && (
-              <Link
-                href="/plants"
-                className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
-                prefetch={false}
-              >
-                Общий Сад
-              </Link>
-            )}
-            {user && currentPath !== `/garden/${user._id}` && (
-              <Link
-                href={`/garden/${user._id}`}
-                className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
-                prefetch={false}
-              >
-                Мой Сад
-              </Link>
-            )}
+            <Link
+              href="/"
+              className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
+              prefetch={false}
+            >
+              Главная
+            </Link>
+            <Link
+              href="/scan"
+              className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
+              prefetch={false}
+            >
+              Сканировать
+            </Link>
+            <Link
+              href="/plants"
+              className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
+              prefetch={false}
+            >
+              Общий Сад
+            </Link>
             {user ? (
               <div className="flex items-center gap-2">
+                <Link
+                  href={`/garden/${user._id}`}
+                  className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
+                  prefetch={false}
+                >
+                  Мой Сад
+                </Link>
                 <span className="text-sm font-medium text-[#4CAF50]">
                   {user.username}
                 </span>
@@ -380,15 +368,13 @@ export default function Header() {
                 </button>
               </div>
             ) : (
-              currentPath !== '/signin' && (
-                <Link
-                  href="/signin"
-                  className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
-                  prefetch={false}
-                >
-                  Войти
-                </Link>
-              )
+              <Link
+                href="/signin"
+                className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
+                prefetch={false}
+              >
+                Войти
+              </Link>
             )}
           </div>
         </nav>
@@ -400,48 +386,40 @@ export default function Header() {
           style={{ backgroundColor: 'white' }}
         >
           <div className="flex flex-col gap-4 bg-white p-4 rounded-md shadow-lg w-full h-full">
-            {currentPath !== '/' && (
-              <Link
-                href="/"
-                className="text-sm font-medium text-[#4CAF50] hover:underline underline-offset-4"
-                prefetch={false}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Главная
-              </Link>
-            )}
-            {currentPath !== '/scan' && (
-              <Link
-                href="/scan"
-                className="text-sm font-medium text-[#4CAF50] hover:underline underline-offset-4"
-                prefetch={false}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Сканировать
-              </Link>
-            )}
-            {currentPath !== '/plants' && (
-              <Link
-                href="/plants"
-                className="text-sm font-medium text-[#4CAF50] hover:underline underline-offset-4"
-                prefetch={false}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Общий Сад
-              </Link>
-            )}
-            {user && currentPath !== `/garden/${user._id}` && (
-              <Link
-                href={`/garden/${user._id}`}
-                className="text-sm font-medium text-[#4CAF50] hover:underline underline-offset-4"
-                prefetch={false}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Мой Сад
-              </Link>
-            )}
+            <Link
+              href="/"
+              className="text-sm font-medium text-[#4CAF50] hover:underline underline-offset-4"
+              prefetch={false}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Главная
+            </Link>
+            <Link
+              href="/scan"
+              className="text-sm font-medium text-[#4CAF50] hover:underline underline-offset-4"
+              prefetch={false}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Сканировать
+            </Link>
+            <Link
+              href="/plants"
+              className="text-sm font-medium text-[#4CAF50] hover:underline underline-offset-4"
+              prefetch={false}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Общий Сад
+            </Link>
             {user ? (
               <div className="flex items-center gap-2">
+                <Link
+                  href={`/garden/${user._id}`}
+                  className="text-sm font-medium text-[#4CAF50] hover:underline underline-offset-4"
+                  prefetch={false}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Мой Сад
+                </Link>
                 <span className="text-sm font-medium text-[#4CAF50]">
                   {user.username}
                 </span>
@@ -453,16 +431,14 @@ export default function Header() {
                 </button>
               </div>
             ) : (
-              currentPath !== '/signin' && (
-                <Link
-                  href="/signin"
-                  className="text-sm font-medium text-[#4CAF50] hover:underline underline-offset-4"
-                  prefetch={false}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Войти
-                </Link>
-              )
+              <Link
+                href="/signin"
+                className="text-sm font-medium text-[#4CAF50] hover:underline underline-offset-4"
+                prefetch={false}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Войти
+              </Link>
             )}
           </div>
           <Button
