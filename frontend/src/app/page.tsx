@@ -172,12 +172,13 @@ export default function Home() {
       <main className="flex-1 mt-14 relative">
         <section
           className="relative w-full md:py-16 lg:py-32 bg-[#F0F8F0] flex items-center justify-center min-h-[calc(100vh-3.5rem)]"
-          style={{
-            backgroundImage: `url('/images/bg-2.png')`,
-            backgroundPosition: '-80px calc(100% + 35px)',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'auto 30%'
-          }}
+          // style={{
+          //   backgroundImage: `url('/images/bg-2.png'), url('/images/bg-3.png')`,
+          //   backgroundPosition:
+          //     '140px calc(100% + 35px), -80px calc(100% + 30px)',
+          //   backgroundRepeat: 'no-repeat, no-repeat',
+          //   backgroundSize: 'auto 30%, auto 55%'
+          // }}
         >
           <div className="container px-4 md:px-6 flex flex-col items-center justify-center text-center h-full">
             <div className="flex flex-col justify-center space-y-4 mb-12">

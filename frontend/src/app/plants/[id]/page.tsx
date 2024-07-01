@@ -378,7 +378,9 @@ export default function Component() {
   }
 
   const redirectToLogin = () => {
-    setRedirectedFrom(router.pathname)
+    if (typeof window !== 'undefined') {
+      setRedirectedFrom(window.location.pathname)
+    }
     router.push('/signin')
   }
 
