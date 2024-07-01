@@ -290,8 +290,6 @@
 //     </div>
 //   )
 // }
-'use client'
-
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -379,7 +377,7 @@ export default function Component() {
   }
 
   const redirectToLogin = () => {
-    setRedirectedFrom(router.asPath)
+    setRedirectedFrom(router.pathname)
     router.push('/signin')
   }
 
