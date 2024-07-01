@@ -19,6 +19,7 @@ interface Plant {
   homeTemperature: string
   sunlightExposure: string
   image: string
+  createdAt: string // Добавляем поле даты создания
 }
 
 export default function Component() {
@@ -31,7 +32,11 @@ export default function Component() {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/plants/get_all`
         )
-        setPlants(response.data)
+        const sortedPlants = response.data.sort(
+          (a: Plant, b: Plant) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
+        setPlants(sortedPlants)
       } catch (error) {
         console.error('Error fetching plants:', error)
       } finally {
@@ -46,7 +51,7 @@ export default function Component() {
     return (
       <div className="flex flex-col min-h-[100dvh]">
         <Header />
-        <main className="flex-1 flex items-center justify-center bg-[#F0F8F0]">
+        <main className="flex-1 flex items-center justify-center bg-gradient-to-r from-[#bce0bc] via-[#E0F0E0] to-[#F0F8F0]">
           <CircularProgress color="success" />
         </main>
         <Footer />
@@ -57,7 +62,7 @@ export default function Component() {
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <Header />
-      <main className="flex-1 mt-14 px-4 md:px-6 py-12 md:py-24 lg:py-32 bg-[#F0F8F0]">
+      <main className="flex-1 mt-14 px-4 md:px-6 py-12 md:py-24 lg:py-32 bg-gradient-to-r from-[#bce0bc] via-[#E0F0E0] to-[#F0F8F0]">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {plants.map((plant) => (

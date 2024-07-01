@@ -8,6 +8,7 @@ export interface IPlant extends Document {
   homeTemperature?: string
   sunlightExposure?: string
   image: string
+  createdAt: Date
 }
 
 const PlantSchema: Schema = new Schema({
@@ -17,7 +18,8 @@ const PlantSchema: Schema = new Schema({
   soilComposition: { type: String, required: false },
   homeTemperature: { type: String, required: false },
   sunlightExposure: { type: String, required: false },
-  image: { type: String, required: true }
+  image: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
 })
 
 export default mongoose.model<IPlant>('Plant', PlantSchema)

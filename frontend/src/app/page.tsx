@@ -170,16 +170,7 @@ export default function Home() {
     <div className="flex flex-col min-h-[100dvh]">
       <Header />
       <main className="flex-1 mt-14 relative">
-        <section
-          className="relative w-full md:py-16 lg:py-32 bg-[#F0F8F0] flex items-center justify-center min-h-[calc(100vh-3.5rem)]"
-          // style={{
-          //   backgroundImage: `url('/images/bg-2.png'), url('/images/bg-3.png')`,
-          //   backgroundPosition:
-          //     '140px calc(100% + 35px), -80px calc(100% + 30px)',
-          //   backgroundRepeat: 'no-repeat, no-repeat',
-          //   backgroundSize: 'auto 30%, auto 55%'
-          // }}
-        >
+        {/* <section className="relative w-full md:py-16 lg:py-32 bg-[#F0F8F0] flex items-center justify-center min-h-[calc(100vh-3.5rem)]">
           <div className="container px-4 md:px-6 flex flex-col items-center justify-center text-center h-full">
             <div className="flex flex-col justify-center space-y-4 mb-12">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-[#4CAF50]">
@@ -208,7 +199,47 @@ export default function Home() {
               </button>
             </div>
           </div>
+        </section> */}
+        <section className="relative w-full md:py-16 lg:py-32 bg-gradient-to-r from-[#bce0bc] via-[#E0F0E0] to-[#F0F8F0] flex items-center justify-center min-h-[calc(100vh-3.5rem)]">
+          <div className="container px-4 md:px-6 flex flex-col md:flex-row items-center justify-between h-full">
+            <div className="order-2 md:order-1 flex flex-col justify-center space-y-4 mb-12 md:mb-0 md:text-left text-center">
+              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-[#4CAF50]">
+                Преобразите свой{' '}
+                <span className="text-[#0A6847]">домашний сад</span> с легкостью
+              </h1>
+              <p className="max-w-[600px] text-[#6A6A6A] md:text-xl mx-auto md:mx-0">
+                Не упустите ни одной детали в уходе за растениями.
+              </p>
+              <div className="flex flex-col gap-2 sm:flex-row justify-start w-full sm:w-auto p-4 md:p-0">
+                <Link
+                  href="/scan"
+                  className="inline-flex h-12 items-center justify-center rounded-md bg-[#4CAF50] px-24 text-sm font-medium text-white transition-colors hover:bg-[#3D8E40] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 w-full sm:w-auto"
+                  prefetch={false}
+                  style={{ borderRadius: '5px' }}
+                >
+                  Начать
+                </Link>
+                <button
+                  onClick={handleLearnMoreClick}
+                  className="inline-flex h-12 items-center justify-center rounded-md border border-[#4CAF50] bg-[#F0F8F0] px-24 text-sm font-medium transition-colors hover:bg-[#E0F0E0] hover:text-[#4CAF50] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 w-full sm:w-auto"
+                  style={{ borderRadius: '5px' }}
+                >
+                  Узнать больше
+                </button>
+              </div>
+            </div>
+            <div className="order-1 md:order-2 md:w-1/2 w-full flex justify-center md:justify-start mb-8 md:mb-0">
+              <Image
+                src="/images/bg-2.png"
+                alt="Flower"
+                width={700}
+                height={500}
+                className="object-cover"
+              />
+            </div>
+          </div>
         </section>
+
         <section className="w-full py-12 md:py-24 lg:py-32 bg-white">
           <div
             className="container px-4 md:px-6"
