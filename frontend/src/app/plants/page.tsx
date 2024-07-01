@@ -7,6 +7,8 @@ import Header from '@/components/Header/index'
 import Footer from '@/components/Footer/footer'
 import Image from 'next/image'
 import axios from 'axios'
+import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
 
 // Определяем интерфейс для растения
 interface Plant {
@@ -41,7 +43,15 @@ export default function Component() {
   }, [])
 
   if (loading) {
-    return <div>Загрузка...</div>
+    return (
+      <div className="flex flex-col min-h-[100dvh]">
+        <Header />
+        <main className="flex-1 flex items-center justify-center bg-[#F0F8F0]">
+          <CircularProgress color="success" />
+        </main>
+        <Footer />
+      </div>
+    )
   }
 
   return (

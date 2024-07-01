@@ -8,6 +8,8 @@ import Header from '@/components/Header/index'
 import Footer from '@/components/Footer/footer'
 import { useAuth } from '@/context/AuthContext'
 import axios from 'axios'
+import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
 
 interface Plant {
   _id: string
@@ -57,7 +59,15 @@ export default function Home() {
   }, [user])
 
   if (loading) {
-    return <div>Загрузка...</div>
+    return (
+      <div className="flex flex-col min-h-[100dvh]">
+        <Header />
+        <main className="flex-1 flex items-center justify-center bg-[#F0F8F0]">
+          <CircularProgress color="success" />
+        </main>
+        <Footer />
+      </div>
+    )
   }
 
   if (!garden || plants.length === 0) {
