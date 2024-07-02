@@ -1,58 +1,349 @@
+// import PlantModel, { IPlant } from './models/Plant'
+// import { uploadFile } from '../../middlewares/s3-middleware'
+// import mongoose from 'mongoose'
+// import openai from '../../openai'
+
+// class PlantService {
+//   async createPlant(
+//     plant: Partial<IPlant>,
+//     imageBuffer: Buffer,
+//     imageFileName: string
+//   ): Promise<IPlant> {
+//     try {
+//       const bucketName = process.env.AWS_BUCKET_NAME!
+//       const imageKey = `plant-images/${Date.now().toString()}-${imageFileName}`
+
+//       console.log('Uploading image file to S3:', { bucketName, imageKey })
+//       const imageUrl = await uploadFile(bucketName, imageBuffer, imageKey)
+//       console.log('Image file uploaded to S3:', imageUrl)
+
+//       // Конвертация изображения в base64 строку
+//       const base64Image = imageBuffer.toString('base64')
+
+//       // Отправка изображения в ChatGPT для получения описания
+//       // const userPrompt = `Please describe the plant in the following image.`
+//       // const response = await openai.chat.completions.create({
+//       //   model: 'gpt-4o',
+//       //   messages: [
+//       //     {
+//       //       role: 'system',
+//       //       content: `
+//       //         You are a professional plant identifier. Based on the image provided, generate a JSON array that includes an object with the following details:
+//       //         name, description, location (optional), soilComposition (optional), homeTemperature (optional), and sunlightExposure (optional). The response should be strictly JSON array formatted and include no additional text.
+//       //         The JSON array should look like this:
+//       //         [
+//       //           {
+//       //             "name": "Plant Name",
+//       //             "description": "Detailed description of the plant",
+//       //             "location": "Optional location",
+//       //             "soilComposition": "Optional soil composition",
+//       //             "homeTemperature": "Optional home temperature",
+//       //             "sunlightExposure": "Optional sunlight exposure"
+//       //           }
+//       //         ]
+//       //       `
+//       //     },
+//       //     {
+//       //       role: 'user',
+//       //       content: [
+//       //         {
+//       //           type: 'text',
+//       //           text: userPrompt
+//       //         },
+//       //         {
+//       //           type: 'image_url',
+//       //           image_url: {
+//       //             url: `data:image/jpeg;base64,${base64Image}`
+//       //           }
+//       //         }
+//       //       ]
+//       //     }
+//       //   ],
+//       //   stream: false
+//       // })
+//       const userPrompt = `Пожалуйста, опишите растение на следующем изображении.`
+//       const response = await openai.chat.completions.create({
+//         model: 'gpt-4o',
+//         messages: [
+//           {
+//             role: 'system',
+//             content: `
+//         Вы профессиональный ботаник, который занимается определением растений. На основе предоставленного изображения создайте JSON массив, который включает объект с следующими данными:
+//         имя, описание, местоположение (необязательно), состав почвы (необязательно), температура в доме (необязательно), и солнечное освещение (необязательно). Ответ должен строго соответствовать формату JSON массива и не должен содержать дополнительного текста.
+//         JSON массив должен выглядеть следующим образом:
+//         [
+//           {
+//             "name": "Название растения",
+//             "description": "Подробное описание растения",
+//             "location": "Необязательное местоположение",
+//             "soilComposition": "Необязательный состав почвы",
+//             "homeTemperature": "Необязательная температура в доме",
+//             "sunlightExposure": "Необязательное солнечное освещение"
+//           }
+//         ]
+//       `
+//           },
+//           {
+//             role: 'user',
+//             content: [
+//               {
+//                 type: 'text',
+//                 text: userPrompt
+//               },
+//               {
+//                 type: 'image_url',
+//                 image_url: {
+//                   url: `data:image/jpeg;base64,${base64Image}`
+//                 }
+//               }
+//             ]
+//           }
+//         ],
+//         stream: false
+//       })
+
+//       let messageContent = response.choices[0]?.message?.content || null
+//       console.log('Received message content:', messageContent)
+
+//       if (!messageContent) {
+//         throw new Error('No content received from OpenAI')
+//       }
+
+//       // Удаление возможных форматирующих символов
+//       messageContent = messageContent.replace(/```json|```/g, '').trim()
+
+//       const plantDescriptions = JSON.parse(messageContent)
+
+//       if (!Array.isArray(plantDescriptions) || plantDescriptions.length === 0) {
+//         throw new Error('Invalid response format from OpenAI')
+//       }
+
+//       const plantDescription = plantDescriptions[0]
+
+//       const newPlant = new PlantModel({
+//         ...plant,
+//         image: imageUrl,
+//         name: plantDescription.name,
+//         description: plantDescription.description,
+//         location: plantDescription.location,
+//         soilComposition: plantDescription.soilComposition,
+//         homeTemperature: plantDescription.homeTemperature,
+//         sunlightExposure: plantDescription.sunlightExposure
+//       })
+//       console.log('Saving plant to database:', newPlant)
+//       const savedPlant = await newPlant.save()
+
+//       return savedPlant
+//     } catch (err) {
+//       console.error('Error creating plant:', err)
+//       throw err
+//     }
+//   }
+
+//   async getPlant(id: string): Promise<IPlant | null> {
+//     try {
+//       return PlantModel.findById(id)
+//     } catch (err) {
+//       console.error('Error getting plant:', err)
+//       throw err
+//     }
+//   }
+
+//   async getAllPlants(): Promise<IPlant[]> {
+//     try {
+//       return PlantModel.find()
+//     } catch (err) {
+//       console.error('Error getting plants:', err)
+//       throw err
+//     }
+//   }
+
+//   async getWateringFrequency(
+//     name: string,
+//     description: string,
+//     soilComposition: string,
+//     lightType: string
+//   ): Promise<number> {
+//     console.log('getWateringFrequency called with:', {
+//       name,
+//       description,
+//       soilComposition,
+//       lightType
+//     })
+
+//     const userPrompt = `Пожалуйста, выдай мне сколько раз в неделю мне нужно поливать мое растение.`
+//     const prompt = `
+//       Вы профессиональный ботаник. На основе предоставленного описания растения, условий почвы и типа освещения, создайте JSON массив, который включает объект с следующими данными:
+//       "wateringFrequency": количество раз в неделю, когда растение следует поливать.
+//       Название растения: ${name}
+//       Описание растения: ${description}
+//       Условия почвы: ${soilComposition}
+//       Тип освещения: ${lightType}
+//       Ответ должен строго соответствовать формату JSON массива и не должен содержать дополнительного текста.
+//       JSON массив должен выглядеть следующим образом:
+//       [
+//         {
+//           "wateringFrequency": 3
+//         }
+//       ]
+//     `
+
+//     const response = await openai.chat.completions.create({
+//       model: 'gpt-4o',
+//       messages: [
+//         {
+//           role: 'system',
+//           content: prompt
+//         },
+//         {
+//           role: 'user',
+//           content: userPrompt
+//         }
+//       ],
+//       stream: false
+//     })
+
+//     const messageContent = response.choices[0]?.message?.content
+//     console.log('OpenAI response:', messageContent)
+
+//     if (!messageContent) {
+//       throw new Error('No content received from OpenAI')
+//     }
+
+//     try {
+//       const data = JSON.parse(messageContent)
+//       if (Array.isArray(data) && data.length > 0 && data[0].wateringFrequency) {
+//         console.log('Parsed wateringFrequency:', data[0].wateringFrequency)
+//         return data[0].wateringFrequency
+//       } else {
+//         throw new Error('Invalid response format')
+//       }
+//     } catch (error) {
+//       console.error('Error parsing JSON from OpenAI response:', error)
+//       throw new Error('Error parsing JSON from OpenAI response')
+//     }
+//   }
+
+//   async updatePlant(
+//     id: string,
+//     plantUpdate: Partial<IPlant>
+//   ): Promise<IPlant | null> {
+//     try {
+//       const plant = await PlantModel.findById(id)
+//       console.log('updatePlant called with:', { id, plantUpdate })
+//       if (!plant) throw new Error('Plant not found')
+
+//       if (
+//         plantUpdate.name &&
+//         plantUpdate.description &&
+//         plantUpdate.userSoilComposition &&
+//         plantUpdate.userSunlightExposure
+//       ) {
+//         const wateringFrequency = await this.getWateringFrequency(
+//           plantUpdate.name,
+//           plantUpdate.description,
+//           plantUpdate.userSoilComposition,
+//           plantUpdate.userSunlightExposure
+//         )
+//         plantUpdate.wateringFrequency = wateringFrequency
+//         plantUpdate.nextWateringDate = new Date(
+//           new Date().getTime() + (wateringFrequency * 24 * 60 * 60 * 1000) / 7
+//         )
+//       }
+
+//       Object.assign(plant, plantUpdate)
+//       const updatedPlant = await plant.save()
+//       console.log('Plant updated:', updatedPlant)
+
+//       return updatedPlant
+//     } catch (err) {
+//       console.error('Error updating plant:', err)
+//       throw err
+//     }
+//   }
+
+//   async deletePlant(id: string): Promise<IPlant | null> {
+//     try {
+//       return PlantModel.findByIdAndDelete(id)
+//     } catch (err) {
+//       console.error('Error deleting plant:', err)
+//       throw err
+//     }
+//   }
+// }
+
+// export default PlantService
 import PlantModel, { IPlant } from './models/Plant'
 import { uploadFile } from '../../middlewares/s3-middleware'
 import mongoose from 'mongoose'
 import openai from '../../openai'
 
 class PlantService {
-  private async *processStreamedJsonArray(
-    stream: AsyncIterable<any>
-  ): AsyncGenerator<string> {
-    let accumulator = '' // Accumulate JSON object characters
-    let depth = 0 // Depth of nested JSON structures
-    let isInString = false // Whether the current context is within a string
+  private async getWateringFrequency(
+    name: string,
+    description: string,
+    soilComposition: string,
+    lightType: string
+  ): Promise<number> {
+    console.log('getWateringFrequency called with:', {
+      name,
+      description,
+      soilComposition,
+      lightType
+    })
 
-    for await (const part of stream) {
-      const chunk = part.choices[0]?.delta?.content // Extract content from the stream part
-
-      if (chunk) {
-        for (const char of chunk) {
-          // Toggle isInString when encountering a quote that isn't escaped
-          if (char === '"' && (accumulator.slice(-1) !== '\\' || isInString)) {
-            isInString = !isInString
-          }
-
-          // Accumulate characters if within an object or string
-          if (isInString || depth > 0) {
-            accumulator += char
-          }
-
-          // Adjust depth based on the current character if not within a string
-          if (!isInString) {
-            if (char === '{') {
-              depth++ // Increase depth at the start of an object
-              if (depth === 1) {
-                accumulator = '{' // Ensure accumulator starts with an opening brace for a new object
-              }
-            } else if (char === '}') {
-              depth-- // Decrease depth at the end of an object
-            }
-          }
-
-          // Attempt to parse when depth returns to 0, indicating the end of an object
-          if (depth === 0 && !isInString && accumulator.trim() !== '') {
-            try {
-              const parsedObject = JSON.parse(accumulator) // Parse the accumulated string as JSON
-              yield parsedObject // Yield the parsed JSON object
-            } catch (e) {
-              console.error('Error parsing JSON:', e) // Log parsing errors
-            }
-            accumulator = '' // Reset accumulator for the next JSON object
-          }
+    const userPrompt = `Пожалуйста, выдай мне сколько раз в неделю мне нужно поливать мое растение.`
+    const prompt = `
+      Вы профессиональный ботаник. На основе предоставленного описания растения, условий почвы и типа освещения, создайте JSON массив, который включает объект с следующими данными:
+      "wateringFrequency": количество раз в неделю, когда растение следует поливать.
+      Название растения: ${name}
+      Описание растения: ${description}
+      Условия почвы: ${soilComposition}
+      Тип освещения: ${lightType}
+      Ответ должен строго соответствовать формату JSON массива и не должен содержать дополнительного текста.
+      JSON массив должен выглядеть следующим образом:
+      [
+        {
+          "wateringFrequency": 3
         }
+      ]
+    `
+
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        {
+          role: 'system',
+          content: prompt
+        },
+        {
+          role: 'user',
+          content: userPrompt
+        }
+      ],
+      stream: false
+    })
+
+    const messageContent = response.choices[0]?.message?.content
+    console.log('OpenAI response:', messageContent)
+
+    if (!messageContent) {
+      throw new Error('No content received from OpenAI')
+    }
+
+    try {
+      const data = JSON.parse(messageContent)
+      if (Array.isArray(data) && data.length > 0 && data[0].wateringFrequency) {
+        console.log('Parsed wateringFrequency:', data[0].wateringFrequency)
+        return data[0].wateringFrequency
+      } else {
+        throw new Error('Invalid response format')
       }
+    } catch (error) {
+      console.error('Error parsing JSON from OpenAI response:', error)
+      throw new Error('Error parsing JSON from OpenAI response')
     }
   }
-
   async createPlant(
     plant: Partial<IPlant>,
     imageBuffer: Buffer,
@@ -66,50 +357,8 @@ class PlantService {
       const imageUrl = await uploadFile(bucketName, imageBuffer, imageKey)
       console.log('Image file uploaded to S3:', imageUrl)
 
-      // Конвертация изображения в base64 строку
       const base64Image = imageBuffer.toString('base64')
 
-      // Отправка изображения в ChatGPT для получения описания
-      // const userPrompt = `Please describe the plant in the following image.`
-      // const response = await openai.chat.completions.create({
-      //   model: 'gpt-4o',
-      //   messages: [
-      //     {
-      //       role: 'system',
-      //       content: `
-      //         You are a professional plant identifier. Based on the image provided, generate a JSON array that includes an object with the following details:
-      //         name, description, location (optional), soilComposition (optional), homeTemperature (optional), and sunlightExposure (optional). The response should be strictly JSON array formatted and include no additional text.
-      //         The JSON array should look like this:
-      //         [
-      //           {
-      //             "name": "Plant Name",
-      //             "description": "Detailed description of the plant",
-      //             "location": "Optional location",
-      //             "soilComposition": "Optional soil composition",
-      //             "homeTemperature": "Optional home temperature",
-      //             "sunlightExposure": "Optional sunlight exposure"
-      //           }
-      //         ]
-      //       `
-      //     },
-      //     {
-      //       role: 'user',
-      //       content: [
-      //         {
-      //           type: 'text',
-      //           text: userPrompt
-      //         },
-      //         {
-      //           type: 'image_url',
-      //           image_url: {
-      //             url: `data:image/jpeg;base64,${base64Image}`
-      //           }
-      //         }
-      //       ]
-      //     }
-      //   ],
-      //   stream: false
-      // })
       const userPrompt = `Пожалуйста, опишите растение на следующем изображении.`
       const response = await openai.chat.completions.create({
         model: 'gpt-4o',
@@ -117,20 +366,20 @@ class PlantService {
           {
             role: 'system',
             content: `
-        Вы профессиональный ботаник, который занимается определением растений. На основе предоставленного изображения создайте JSON массив, который включает объект с следующими данными:
-        имя, описание, местоположение (необязательно), состав почвы (необязательно), температура в доме (необязательно), и солнечное освещение (необязательно). Ответ должен строго соответствовать формату JSON массива и не должен содержать дополнительного текста.
-        JSON массив должен выглядеть следующим образом:
-        [
-          {
-            "name": "Название растения",
-            "description": "Подробное описание растения",
-            "location": "Необязательное местоположение",
-            "soilComposition": "Необязательный состав почвы",
-            "homeTemperature": "Необязательная температура в доме",
-            "sunlightExposure": "Необязательное солнечное освещение"
-          }
-        ]
-      `
+              Вы профессиональный ботаник, который занимается определением растений. На основе предоставленного изображения создайте JSON массив, который включает объект с следующими данными:
+              имя, описание, местоположение (необязательно), состав почвы (необязательно), температура в доме (необязательно), и солнечное освещение (необязательно). Ответ должен строго соответствовать формату JSON массива и не должен содержать дополнительного текста.
+              JSON массив должен выглядеть следующим образом:
+              [
+                {
+                  "name": "Название растения",
+                  "description": "Подробное описание растения",
+                  "location": "Необязательное местоположение",
+                  "soilComposition": "Необязательный состав почвы",
+                  "homeTemperature": "Необязательная температура в доме",
+                  "sunlightExposure": "Необязательное солнечное освещение"
+                }
+              ]
+            `
           },
           {
             role: 'user',
@@ -158,9 +407,7 @@ class PlantService {
         throw new Error('No content received from OpenAI')
       }
 
-      // Удаление возможных форматирующих символов
       messageContent = messageContent.replace(/```json|```/g, '').trim()
-
       const plantDescriptions = JSON.parse(messageContent)
 
       if (!Array.isArray(plantDescriptions) || plantDescriptions.length === 0) {
@@ -209,30 +456,39 @@ class PlantService {
 
   async updatePlant(
     id: string,
-    plantUpdate: Partial<IPlant>,
-    imageBuffer?: Buffer,
-    imageFileName?: string
+    plantUpdate: Partial<IPlant>
   ): Promise<IPlant | null> {
     try {
-      let imageUrl: string | undefined
-      if (imageBuffer && imageFileName) {
-        const bucketName = process.env.AWS_BUCKET_NAME!
-        const imageKey = `plants/${Date.now().toString()}-${imageFileName}`
-
-        console.log('Uploading image file to S3:', { bucketName, imageKey })
-        imageUrl = await uploadFile(bucketName, imageBuffer, imageKey)
-        console.log('Image file uploaded to S3:', imageUrl)
-      }
-
       const plant = await PlantModel.findById(id)
+      console.log('updatePlant called with:', { id, plantUpdate })
       if (!plant) throw new Error('Plant not found')
 
-      if (imageUrl) {
-        plantUpdate.image = imageUrl
+      if (
+        plantUpdate.name &&
+        plantUpdate.description &&
+        plantUpdate.userSoilComposition &&
+        plantUpdate.userSunlightExposure
+      ) {
+        console.log('if statement entered')
+        const wateringFrequency = await this.getWateringFrequency(
+          plantUpdate.name,
+          plantUpdate.description,
+          plantUpdate.userSoilComposition,
+          plantUpdate.userSunlightExposure
+        )
+        plantUpdate.wateringFrequency = wateringFrequency
+
+        const lastWateredDate = new Date(
+          plantUpdate.lastWateredDate || new Date()
+        )
+        plantUpdate.nextWateringDate = new Date(
+          lastWateredDate.getTime() + wateringFrequency * 24 * 60 * 60 * 1000
+        )
       }
 
       Object.assign(plant, plantUpdate)
       const updatedPlant = await plant.save()
+      console.log('Plant updated:', updatedPlant)
 
       return updatedPlant
     } catch (err) {

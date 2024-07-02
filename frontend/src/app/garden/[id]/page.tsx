@@ -19,6 +19,7 @@ interface Plant {
   homeTemperature: string
   sunlightExposure: string
   image: string
+  wateringFrequency: number
 }
 
 interface Garden {
@@ -61,11 +62,11 @@ export default function Home() {
   if (loading) {
     return (
       <div className="flex flex-col min-h-[100dvh]">
-        <Header />
-        <main className="flex-1 flex items-center justify-center bg-gradient-to-r from-[#bce0bc] via-[#E0F0E0] to-[#F0F8F0]">
+        <Header bgColor="bg-[#F0F8F0]" />
+        <main className="flex-1 flex items-center justify-center bg-[#F0F8F0]">
           <CircularProgress color="success" />
         </main>
-        <Footer />
+        <Footer bgColor="bg-[#F0F8F0]" />
       </div>
     )
   }
@@ -73,8 +74,8 @@ export default function Home() {
   if (!garden || plants.length === 0) {
     return (
       <div className="flex flex-col min-h-[100dvh]">
-        <Header />
-        <main className="flex-1 mt-14 px-4 md:px-6 py-12 md:py-24 lg:py-32 bg-gradient-to-r from-[#bce0bc] via-[#E0F0E0] to-[#F0F8F0]">
+        <Header bgColor="bg-[#F0F8F0]" />
+        <main className="flex-1 mt-14 px-4 md:px-6 py-12 md:py-24 lg:py-32 bg-[#F0F8F0]">
           <div className="container text-center">
             <p className="text-lg text-[#6A6A6A]">
               Вы еще не добавили ничего в ваш сад.
@@ -84,14 +85,14 @@ export default function Home() {
             </Link>
           </div>
         </main>
-        <Footer />
+        <Footer bgColor="bg-[#F0F8F0]" />
       </div>
     )
   }
 
   return (
     <div className="flex flex-col min-h-[100dvh]">
-      <Header />
+      <Header bgColor="bg-[#F0F8F0]" />
       <main className="flex-1 mt-14 px-4 md:px-6 py-12 md:py-24 lg:py-32 bg-[#F0F8F0]">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -182,13 +183,74 @@ export default function Home() {
                     </svg>
                     <p className="text-[#6A6A6A]">{plant.sunlightExposure}</p>
                   </div>
+                  <div className="flex items-center gap-2">
+                    <svg
+                      fill="#000000"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      id="water-can-2"
+                      data-name="Line Color"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="icon line-color"
+                    >
+                      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                      <g
+                        id="SVGRepo_tracerCarrier"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      ></g>
+                      <g id="SVGRepo_iconCarrier">
+                        <polyline
+                          id="secondary"
+                          points="15.52 11.76 19.17 9.76 21 11.59 15.96 16.63"
+                          style={{
+                            fill: 'none',
+                            stroke: '#4CAF50',
+                            strokeLinecap: 'round',
+                            strokeLinejoin: 'round',
+                            strokeWidth: 2
+                          }}
+                        ></polyline>
+                        <path
+                          id="secondary-2"
+                          data-name="secondary"
+                          d="M6.35,12.94a4,4,0,1,1,4.47-5.13"
+                          style={{
+                            fill: 'none',
+                            stroke: '#4CAF50',
+                            strokeLinecap: 'round',
+                            strokeLinejoin: 'round',
+                            strokeWidth: 2
+                          }}
+                        ></path>
+                        <path
+                          id="primary"
+                          d="M7.09,19h7.82a1,1,0,0,0,1-1.09l-.82-9a1,1,0,0,0-1-.91H7.91a1,1,0,0,0-1,.91l-.82,9A1,1,0,0,0,7.09,19Z"
+                          style={{
+                            fill: 'none',
+                            stroke: '#4CAF50',
+                            strokeLinecap: 'round',
+                            strokeLinejoin: 'round',
+                            strokeWidth: 2
+                          }}
+                        ></path>
+                      </g>
+                    </svg>
+                    <p className="text-[#6A6A6A]">
+                      {plant.wateringFrequency}{' '}
+                      {plant.wateringFrequency === 1
+                        ? 'раз в неделю'
+                        : 'раза в неделю'}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </main>
-      <Footer />
+      <Footer bgColor="bg-[#F0F8F0]" />
     </div>
   )
 }

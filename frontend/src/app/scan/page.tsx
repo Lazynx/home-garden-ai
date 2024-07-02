@@ -225,8 +225,8 @@ export default function Component() {
 
   return (
     <div className="flex flex-col min-h-[100dvh]">
-      <Header />
-      <main className="flex-1 mt-14 px-4 md:px-6 py-12 md:py-24 lg:py-32 bg-gradient-to-r from-[#bce0bc] via-[#E0F0E0] to-[#F0F8F0]">
+      <Header bgColor="bg-[#F0F8F0]" />
+      <main className="flex-1 mt-14 px-4 md:px-6 py-12 md:py-24 lg:py-32 bg-[#F0F8F0]">
         <div className="container">
           <div className="flex flex-col items-center justify-center space-y-6">
             <div className="space-y-2">
@@ -324,7 +324,7 @@ export default function Component() {
           </div>
         </div>
       </main>
-      <Footer />
+      <Footer bgColor="bg-[#F0F8F0]" />
     </div>
   )
 }

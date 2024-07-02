@@ -50,25 +50,25 @@ export default function Component() {
   if (loading) {
     return (
       <div className="flex flex-col min-h-[100dvh]">
-        <Header />
-        <main className="flex-1 flex items-center justify-center bg-gradient-to-r from-[#bce0bc] via-[#E0F0E0] to-[#F0F8F0]">
+        <Header bgColor="bg-[#F0F8F0]" />
+        <main className="flex-1 flex items-center justify-center bg-[#F0F8F0]">
           <CircularProgress color="success" />
         </main>
-        <Footer />
+        <Footer bgColor="bg-[#F0F8F0]" />
       </div>
     )
   }
 
   return (
     <div className="flex flex-col min-h-[100dvh]">
-      <Header />
-      <main className="flex-1 mt-14 px-4 md:px-6 py-12 md:py-24 lg:py-32 bg-gradient-to-r from-[#bce0bc] via-[#E0F0E0] to-[#F0F8F0]">
+      <Header bgColor="bg-[#F0F8F0]" />
+      <main className="flex-1 mt-14 px-4 md:px-6 py-12 md:py-24 lg:py-32 bg-[#F0F8F0]">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {plants.map((plant) => (
               <div
                 key={plant._id}
-                className="relative overflow-hidden transition-transform duration-300 ease-in-out rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2"
+                className="relative overflow-hidden transition-transform duration-300  ease-in-out rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2"
                 style={{ borderRadius: '10px' }}
               >
                 <Link
@@ -158,7 +158,7 @@ export default function Component() {
           </div>
         </div>
       </main>
-      <Footer />
+      <Footer bgColor="bg-[#F0F8F0]" />
     </div>
   )
 }

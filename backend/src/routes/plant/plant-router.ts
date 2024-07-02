@@ -18,7 +18,7 @@ plantRouter.post(
 )
 plantRouter.get('/get_all', plantController.getAllPlants)
 plantRouter.get('/:id', plantController.getPlant)
-plantRouter.put('/plants/:id', plantController.updatePlant)
+plantRouter.put('/update/:id', plantController.updatePlant)
 plantRouter.delete('/plants/:id', plantController.deletePlant)
 
 export default plantRouter
