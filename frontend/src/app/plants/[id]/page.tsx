@@ -142,6 +142,7 @@ export default function Component() {
   }
 
   const handleSubmit = async () => {
+    setLoading(true)
     try {
       const plantUpdate = {
         name: plantInfo?.name,
@@ -217,6 +218,8 @@ export default function Component() {
       }
     } catch (error) {
       console.error('Error updating plant:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -461,8 +464,13 @@ export default function Component() {
           />
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleSubmit} className="text-[#4CAF50]">
-            Добавить
+          <Button
+            autoFocus
+            onClick={handleSubmit}
+            className="text-[#4CAF50]"
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={24} /> : 'Добавить'}
           </Button>
         </DialogActions>
       </BootstrapDialog>

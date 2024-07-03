@@ -184,48 +184,6 @@ class PlantService {
     }
   }
 
-  // async updatePlant(
-  //   id: string,
-  //   plantUpdate: Partial<IPlant>
-  // ): Promise<IPlant | null> {
-  //   try {
-  //     const plant = await PlantModel.findById(id)
-  //     console.log('updatePlant called with:', { id, plantUpdate })
-  //     if (!plant) throw new Error('Plant not found')
-
-  //     if (
-  //       plantUpdate.name &&
-  //       plantUpdate.description &&
-  //       plantUpdate.userSoilComposition &&
-  //       plantUpdate.userSunlightExposure
-  //     ) {
-  //       console.log('if statement entered')
-  //       const wateringFrequency = await this.getWateringFrequency(
-  //         plantUpdate.name,
-  //         plantUpdate.description,
-  //         plantUpdate.userSoilComposition,
-  //         plantUpdate.userSunlightExposure
-  //       )
-  //       plantUpdate.wateringFrequency = wateringFrequency
-
-  //       const lastWateredDate = new Date(
-  //         plantUpdate.lastWateredDate || new Date()
-  //       )
-  //       plantUpdate.nextWateringDate = new Date(
-  //         lastWateredDate.getTime() + wateringFrequency * 24 * 60 * 60 * 1000
-  //       )
-  //     }
-
-  //     Object.assign(plant, plantUpdate)
-  //     const updatedPlant = await plant.save()
-  //     console.log('Plant updated:', updatedPlant)
-
-  //     return updatedPlant
-  //   } catch (err) {
-  //     console.error('Error updating plant:', err)
-  //     throw err
-  //   }
-  // }
   private calculateNextWateringDates(
     lastWateredDate: Date,
     wateringFrequency: number
