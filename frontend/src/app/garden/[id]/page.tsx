@@ -103,7 +103,7 @@ export default function Home() {
                 style={{ borderRadius: '10px' }}
               >
                 <Link
-                  href={`/plants/${plant._id}`}
+                  href={`/garden/plant/${plant._id}`}
                   className="absolute inset-0 z-10"
                   prefetch={false}
                 >

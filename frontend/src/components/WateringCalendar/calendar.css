@@ -1,0 +1,29 @@
+/* .highlighted-day {
+    background-color: #4caf50;
+    color: #fff !important;
+    border-radius: 50% !important;
+    width: 20px;
+    height: 25px;
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+  
+
+/* calendar.css */
+.react-datepicker {
+    font-family: 'Inter', sans-serif;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .react-datepicker__day--highlighted-day {
+    background-color: #4CAF50 !important;
+    color: #fff !important;
+    border-radius: 50%;
+  }
+  
+  .react-datepicker__day--highlighted-day:hover {
+    background-color: #3D8E40 !important;
+  }
+  
+   
