@@ -376,6 +376,7 @@ interface Plant {
   image: string
   wateringFrequency: number
   lastWateredDate: string
+  createdAt: string
 }
 
 interface Garden {
@@ -405,7 +406,11 @@ export default function Home() {
         )
         .then((response) => {
           setGarden(response.data)
-          setPlants(response.data.plants || [])
+          const sortedPlants = (response.data.plants || []).sort(
+            (a: Plant, b: Plant) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+          setPlants(sortedPlants)
           setLoading(false)
         })
         .catch((error) => {

@@ -304,7 +304,7 @@ export default function Component() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <path d="M14 4v10.54a4 4 0 1 1-4 0В4а2 2 0 0 1 4 0З" />
+                    <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z" />
                   </svg>
                   <div>
                     <h3 className="font-semibold text-[#4CAF50]">
