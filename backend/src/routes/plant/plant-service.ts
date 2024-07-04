@@ -113,10 +113,18 @@ class PlantService {
           },
           {
             role: 'user',
-            content: `
-              ${userPrompt}
-              ![image](data:image/jpeg;base64,${base64Image})
-            `
+            content: [
+              {
+                type: 'text',
+                text: userPrompt
+              },
+              {
+                type: 'image_url',
+                image_url: {
+                  url: `data:image/jpeg;base64,${base64Image}`
+                }
+              }
+            ]
           }
         ],
         stream: false
@@ -130,21 +138,10 @@ class PlantService {
       }
 
       messageContent = messageContent.replace(/```json|```/g, '').trim()
-      let plantDescriptions
-      try {
-        plantDescriptions = JSON.parse(messageContent)
-      } catch (error) {
-        throw new Error('Invalid JSON format received from OpenAI')
-      }
+      const plantDescriptions = JSON.parse(messageContent)
 
-      if (
-        !Array.isArray(plantDescriptions) ||
-        plantDescriptions.length === 0 ||
-        !plantDescriptions[0].name
-      ) {
-        throw new Error(
-          'Invalid response format from OpenAI or plant not identified'
-        )
+      if (!Array.isArray(plantDescriptions) || plantDescriptions.length === 0) {
+        throw new Error('Invalid response format from OpenAI')
       }
 
       const plantDescription = plantDescriptions[0]
