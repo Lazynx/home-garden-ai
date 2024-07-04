@@ -113,18 +113,10 @@ class PlantService {
           },
           {
             role: 'user',
-            content: [
-              {
-                type: 'text',
-                text: userPrompt
-              },
-              {
-                type: 'image_url',
-                image_url: {
-                  url: `data:image/jpeg;base64,${base64Image}`
-                }
-              }
-            ]
+            content: `
+              ${userPrompt}
+              ![image](data:image/jpeg;base64,${base64Image})
+            `
           }
         ],
         stream: false
@@ -138,10 +130,21 @@ class PlantService {
       }
 
       messageContent = messageContent.replace(/```json|```/g, '').trim()
-      const plantDescriptions = JSON.parse(messageContent)
+      let plantDescriptions
+      try {
+        plantDescriptions = JSON.parse(messageContent)
+      } catch (error) {
+        throw new Error('Invalid JSON format received from OpenAI')
+      }
 
-      if (!Array.isArray(plantDescriptions) || plantDescriptions.length === 0) {
-        throw new Error('Invalid response format from OpenAI')
+      if (
+        !Array.isArray(plantDescriptions) ||
+        plantDescriptions.length === 0 ||
+        !plantDescriptions[0].name
+      ) {
+        throw new Error(
+          'Invalid response format from OpenAI or plant not identified'
+        )
       }
 
       const plantDescription = plantDescriptions[0]
@@ -232,7 +235,7 @@ class PlantService {
           lastWateredDate,
           wateringFrequency
         )
-        plantUpdate.nextWateringDate = nextWateringDates[0] // Optionally store an array or the next immediate date
+        plantUpdate.nextWateringDate = nextWateringDates[0]
       }
 
       Object.assign(plant, plantUpdate)

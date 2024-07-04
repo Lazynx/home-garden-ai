@@ -1,10 +1,12 @@
 'use client'
+
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import Header from '@/components/Header/index'
 import Footer from '@/components/Footer/footer'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useAuth } from '@/context/AuthContext'
 import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -57,7 +59,7 @@ export default function Component() {
   const router = useRouter()
   const [plantInfo, setPlantInfo] = useState<Plant | null>(null)
   const [loading, setLoading] = useState(false)
-  const [isPlantInGarden, setIsPlantInGarden] = useState(false)
+  const [isPlantInGarden, setIsPlantInGarden] = useState<boolean | null>(null) // Updated
   const [open, setOpen] = useState(false)
 
   // Modal form states
@@ -223,7 +225,8 @@ export default function Component() {
     }
   }
 
-  if (!plantInfo) {
+  if (!plantInfo || isPlantInGarden === null) {
+    // Updated
     return (
       <div className="flex flex-col min-h-[100dvh]">
         <Header bgColor="bg-[#F0F8F0]" />
@@ -345,7 +348,7 @@ export default function Component() {
                   </div>
                 </div>
               </div>
-              {!isPlantInGarden && (
+              {!isPlantInGarden ? (
                 <Button
                   type="button"
                   className="w-full rounded-md bg-[#4CAF50] px-4 py-2 text-white transition-colors hover:bg-[#3D8E40] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
@@ -355,6 +358,16 @@ export default function Component() {
                 >
                   {loading ? 'Добавление...' : 'Добавить в сад'}
                 </Button>
+              ) : (
+                <Link href={`/garden/${user._id}`} passHref>
+                  <Button
+                    type="button"
+                    className="w-full rounded-md bg-[#4CAF50] px-4 py-2 text-white transition-colors hover:bg-[#3D8E40] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                    style={{ borderRadius: '5px' }}
+                  >
+                    Мой Сад
+                  </Button>
+                </Link>
               )}
             </div>
           </div>
@@ -376,7 +389,7 @@ export default function Component() {
           sx={{ m: 0, p: 2, color: '#4CAF50' }}
           id="customized-dialog-title"
         >
-          Информация о вашем растении
+          Вашем растении
         </DialogTitle>
         <IconButton
           aria-label="close"

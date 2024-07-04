@@ -48,10 +48,10 @@ export default function Home() {
                 Не упустите ни одной детали в уходе за растениями.
               </p>
             </div>
-            <div className="flex flex-col gap-2 sm:flex-row justify-center w-full  p-4">
+            <div className="flex flex-col gap-2 sm:flex-row justify-center w-full p-4">
               <Link
                 href="/scan"
-                className="inline-flex h-12 items-center justify-center rounded-md bg-[#4CAF50] px-24 text-sm font-medium text-white transition-colors hover:bg-[#3D8E40] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 w-full sm:w-auto"
+                className="inline-flex h-12 items-center justify-center rounded-md bg-[#4CAF50] px-24 text-sm font-medium text-white transition-colors hover:bg-[#3D8E40] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 w-full sm:w-48"
                 prefetch={false}
                 style={{ borderRadius: '5px' }}
               >
@@ -59,7 +59,7 @@ export default function Home() {
               </Link>
               <button
                 onClick={handleLearnMoreClick}
-                className="inline-flex h-12 items-center justify-center rounded-md border border-[#4CAF50] bg-[#F0F8F0] px-24 text-sm font-medium transition-colors hover:bg-[#E0F0E0] hover:text-[#4CAF50] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 w-full sm:w-auto"
+                className="inline-flex h-12 items-center justify-center rounded-md border border-[#4CAF50] bg-[#F0F8F0] text-sm font-medium transition-colors hover:bg-[#E0F0E0] hover:text-[#4CAF50] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 w-full sm:w-48"
                 style={{ borderRadius: '5px' }}
               >
                 Узнать больше
