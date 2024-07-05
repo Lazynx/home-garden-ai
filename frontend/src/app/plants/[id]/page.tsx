@@ -1,5 +1,4 @@
 'use client'
-
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -59,7 +58,7 @@ export default function Component() {
   const router = useRouter()
   const [plantInfo, setPlantInfo] = useState<Plant | null>(null)
   const [loading, setLoading] = useState(false)
-  const [isPlantInGarden, setIsPlantInGarden] = useState<boolean | null>(null) // Updated
+  const [isPlantInGarden, setIsPlantInGarden] = useState(false)
   const [open, setOpen] = useState(false)
 
   // Modal form states
@@ -225,8 +224,7 @@ export default function Component() {
     }
   }
 
-  if (!plantInfo || isPlantInGarden === null) {
-    // Updated
+  if (!plantInfo) {
     return (
       <div className="flex flex-col min-h-[100dvh]">
         <Header bgColor="bg-[#F0F8F0]" />
@@ -362,7 +360,7 @@ export default function Component() {
                 <Link href={`/garden/${user._id}`} passHref>
                   <Button
                     type="button"
-                    className="w-full rounded-md bg-[#4CAF50] px-4 py-2 text-white transition-colors hover:bg-[#3D8E40] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                    className="w-full rounded-md pt-4 bg-[#4CAF50] px-4 py-2 text-white transition-colors hover:bg-[#3D8E40] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                     style={{ borderRadius: '5px' }}
                   >
                     Мой Сад
@@ -389,7 +387,7 @@ export default function Component() {
           sx={{ m: 0, p: 2, color: '#4CAF50' }}
           id="customized-dialog-title"
         >
-          Вашем растении
+          Информация о вашем растении
         </DialogTitle>
         <IconButton
           aria-label="close"

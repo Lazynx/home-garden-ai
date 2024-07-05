@@ -71,13 +71,6 @@ export default function Component() {
                 className="relative overflow-hidden transition-transform duration-300  ease-in-out rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2 flex flex-col justify-between"
                 style={{ borderRadius: '10px', minHeight: '300px' }}
               >
-                <Link
-                  href={`/plants/${plant._id}`}
-                  className="absolute inset-0 z-10"
-                  prefetch={false}
-                >
-                  <span className="sr-only">View</span>
-                </Link>
                 <Image
                   src={plant.image}
                   alt={plant.name}
@@ -157,7 +150,7 @@ export default function Component() {
                     </div>
                   </div>
                   <Link
-                    href={`/garden/plant/${plant._id}`}
+                    href={`/plants/${plant._id}`}
                     className="mt-4 inline-flex h-12 items-center justify-center rounded-md bg-[#4CAF50] px-4 text-sm font-medium text-white transition-colors hover:bg-[#3D8E40] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 w-full"
                     style={{ borderRadius: '5px' }}
                     prefetch={false}
