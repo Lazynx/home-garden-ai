@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import { Rubik } from 'next/font/google'
 import { Arimo } from 'next/font/google'
 import { AuthProvider } from '@/context/AuthContext'
+import { Analytics } from "@vercel/analytics/react"
 import './globals.css'
 
 const rubik = Rubik({
@@ -31,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={rubik.variable + ' ' + arimo.variable}>
+        <Analytics />
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
