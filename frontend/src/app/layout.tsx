@@ -32,8 +32,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={rubik.variable + ' ' + arimo.variable}>
-        <Analytics />
         <AuthProvider>{children}</AuthProvider>
+        <Analytics />
       </body>
     </html>
   )
