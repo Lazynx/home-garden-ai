@@ -66,6 +66,7 @@ export default function Component() {
   const [customSoilType, setCustomSoilType] = useState('')
   const [lightType, setLightType] = useState('')
   const [lastWateredDate, setLastWateredDate] = useState('')
+  const [sideType, setSideType] = useState('')
   const [potSize, setPotSize] = useState('')
 
   useEffect(() => {
@@ -150,6 +151,7 @@ export default function Component() {
         description: plantInfo?.description,
         userSoilComposition: soilType === 'custom' ? customSoilType : soilType,
         userSunlightExposure: lightType,
+        userSideType: sideType,
         lastWateredDate,
         potSize
       }
@@ -423,16 +425,18 @@ export default function Component() {
               <MenuItem value="Орхидейный субстрат">
                 Орхидейный субстрат
               </MenuItem>
-              <MenuItem value="custom">
-                <TextField
-                  label="Пользовательский вид почвы"
-                  variant="outlined"
-                  fullWidth
-                  value={customSoilType}
-                  onChange={(e) => setCustomSoilType(e.target.value)}
-                />
-              </MenuItem>
+              <MenuItem value="custom">Пользовательский вид почвы</MenuItem>
             </Select>
+            {soilType === 'custom' && (
+              <TextField
+                label="Пользовательский вид почвы"
+                variant="outlined"
+                fullWidth
+                value={customSoilType}
+                onChange={(e) => setCustomSoilType(e.target.value)}
+                sx={{ mt: 2 }}
+              />
+            )}
           </FormControl>
           <FormControl fullWidth sx={{ my: 2 }}>
             <InputLabel id="light-select-label">Тип освещения</InputLabel>
@@ -452,6 +456,19 @@ export default function Component() {
               <MenuItem value="светодиодное (LED) освещение">
                 светодиодное (LED) освещение
               </MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth sx={{ my: 2 }}>
+            <InputLabel id="side-select-label">Сторона</InputLabel>
+            <Select
+              labelId="side-select-label"
+              id="side-select"
+              value={sideType}
+              onChange={(e) => setSideType(e.target.value)}
+              label="Сторона"
+            >
+              <MenuItem value="Солнечная сторона">Солнечная сторона</MenuItem>
+              <MenuItem value="Темная сторона">Темная сторона</MenuItem>
             </Select>
           </FormControl>
           <TextField

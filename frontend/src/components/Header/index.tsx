@@ -218,10 +218,10 @@ export default function Header({ bgColor }: HeaderProps) {
             <span className="sr-only">Close menu</span>
           </Button>
         </div>
-        <div className="flex flex-col gap-4 p-6 pt-12 bg-white w-full h-full items-center">
+        <div className="flex flex-col gap-4 p-6 pt-10 bg-white w-full h-full items-left">
           <Link
             href="/"
-            className="text-lg font-bold text-[#4CAF50] hover:underline underline-offset-4"
+            className="text-base font-bold text-[#4CAF50] hover:underline underline-offset-4"
             prefetch={false}
             onClick={() => setIsMenuOpen(false)}
           >
@@ -229,7 +229,7 @@ export default function Header({ bgColor }: HeaderProps) {
           </Link>
           <Link
             href="/scan"
-            className="text-lg font-bold text-[#4CAF50] hover:underline underline-offset-4"
+            className="text-base font-bold text-[#4CAF50] hover:underline underline-offset-4"
             prefetch={false}
             onClick={() => setIsMenuOpen(false)}
           >
@@ -237,7 +237,7 @@ export default function Header({ bgColor }: HeaderProps) {
           </Link>
           <Link
             href="/diagnose"
-            className="text-lg font-bold text-[#4CAF50] hover:underline underline-offset-4"
+            className="text-base font-bold text-[#4CAF50] hover:underline underline-offset-4"
             prefetch={false}
             onClick={() => setIsMenuOpen(false)}
           >
@@ -245,7 +245,7 @@ export default function Header({ bgColor }: HeaderProps) {
           </Link>
           <Link
             href="/plants"
-            className="text-lg font-bold text-[#4CAF50] hover:underline underline-offset-4"
+            className="text-base font-bold text-[#4CAF50] hover:underline underline-offset-4"
             prefetch={false}
             onClick={() => setIsMenuOpen(false)}
           >
@@ -255,18 +255,18 @@ export default function Header({ bgColor }: HeaderProps) {
             <div className="flex flex-col gap-2">
               <Link
                 href={`/garden/${user._id}`}
-                className="text-lg font-bold text-[#4CAF50] hover:underline underline-offset-4 pb-2"
+                className="text-base font-bold text-[#4CAF50] hover:underline underline-offset-4 pb-2"
                 prefetch={false}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Мой Сад
               </Link>
-              <span className="text-lg font-bold text-[#4CAF50] pb-2">
+              <span className="text-base font-bold text-[#4CAF50] pb-2">
                 {user.username}
               </span>
               <button
                 onClick={handleLogout}
-                className="text-lg font-bold hover:underline underline-offset-4 text-[#4CAF50] self-start"
+                className="text-base font-bold hover:underline underline-offset-4 text-[#4CAF50] self-start"
               >
                 Выйти
               </button>
@@ -274,7 +274,7 @@ export default function Header({ bgColor }: HeaderProps) {
           ) : (
             <Link
               href="/signin"
-              className="text-lg font-bold text-[#4CAF50] hover:underline underline-offset-4"
+              className="text-base font-bold text-[#4CAF50] hover:underline underline-offset-4"
               prefetch={false}
               onClick={() => setIsMenuOpen(false)}
             >

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -15,7 +15,29 @@ export default function Component() {
   const [file, setFile] = useState<File | null>(null)
   const [fileUrl, setFileUrl] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [loadingMessage, setLoadingMessage] = useState<string>('')
   const router = useRouter()
+
+  const loadingMessages = [
+    'Загружаем файл на сервер...',
+    'ИИ обрабатывает фото...',
+    'ИИ идентифицирует растение...',
+    'Получаем ответ с сервера...',
+    'Пожалуйста подождите...',
+    'Загрузка...'
+  ]
+
+  useEffect(() => {
+    if (loading) {
+      let index = 0
+      const intervalId = setInterval(() => {
+        setLoadingMessage(loadingMessages[index])
+        index = (index + 1) % loadingMessages.length
+      }, 2000)
+
+      return () => clearInterval(intervalId)
+    }
+  }, [loading])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0] || null
@@ -160,7 +182,7 @@ export default function Component() {
                 disabled={loading}
                 style={{ borderRadius: '5px' }}
               >
-                {loading ? 'Загрузка...' : 'Получить рекомендации'}
+                {loading ? loadingMessage : 'Получить рекомендации'}
               </Button>
             </form>
           </div>

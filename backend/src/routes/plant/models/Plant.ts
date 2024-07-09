@@ -14,6 +14,9 @@ export interface IPlant extends Document {
   lastWateredDate: Date
   nextWateringDate: Date
   wateringFrequency: number
+  userSideType: string
+  fertilizer: string
+  fertilizerFrequency: string
 }
 
 const PlantSchema: Schema = new Schema({
@@ -29,7 +32,10 @@ const PlantSchema: Schema = new Schema({
   createdAt: { type: Date, default: Date.now },
   lastWateredDate: { type: Date, required: true, default: Date.now },
   nextWateringDate: { type: Date, required: false, default: Date.now },
-  wateringFrequency: { type: Number, required: false, default: 1 }
+  wateringFrequency: { type: Number, required: false, default: 1 },
+  userSideType: { type: String, required: false },
+  fertilizer: { type: String, required: false },
+  fertilizerFrequency: { type: String, required: false }
 })
 
 export default mongoose.model<IPlant>('Plant', PlantSchema)
