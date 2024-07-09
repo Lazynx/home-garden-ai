@@ -1,5 +1,5 @@
 import PlantModel, { IPlant } from './models/Plant'
-import { uploadFile } from '../../middlewares/s3-middleware'
+import { uploadFile, deleteFile } from '../../middlewares/s3-middleware'
 import mongoose from 'mongoose'
 import openai from '../../openai'
 import dayjs from 'dayjs'
@@ -140,7 +140,15 @@ class PlantService {
       messageContent = messageContent.replace(/```json|```/g, '').trim()
       const plantDescriptions = JSON.parse(messageContent)
 
-      if (!Array.isArray(plantDescriptions) || plantDescriptions.length === 0 || plantDescriptions[0].name === "Не удалось определить растение" || plantDescriptions[0].name === "error") {
+      if (
+        !Array.isArray(plantDescriptions) ||
+        plantDescriptions.length === 0 ||
+        plantDescriptions[0].name === 'Не удалось определить растение' ||
+        plantDescriptions[0].name === 'error' ||
+        plantDescriptions[0].soilComposition === 0 ||
+        plantDescriptions[0].homeTemperature === 0
+      ) {
+        await deleteFile(bucketName, imageKey)
         throw new Error('Invalid response format from OpenAI')
       }
 
