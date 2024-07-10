@@ -32,7 +32,9 @@ export default function Component() {
       let index = 0
       const intervalId = setInterval(() => {
         setLoadingMessage(loadingMessages[index])
-        index = (index + 1) % loadingMessages.length
+        if (index < loadingMessages.length - 1) {
+          index++
+        }
       }, 2000)
 
       return () => clearInterval(intervalId)
@@ -71,6 +73,7 @@ export default function Component() {
     }
 
     setLoading(true)
+    setLoadingMessage('Загрузка...')
 
     const formData = new FormData()
     formData.append('plant', file)
@@ -101,12 +104,12 @@ export default function Component() {
       <main className="flex-1 mt-14 px-4 md:px-6 py-12 md:py-24 lg:py-32 bg-[#F0F8F0]">
         <div className="container">
           <div className="flex flex-col items-center justify-center space-y-6">
-            <div className="space-y-2">
+            <div className="space-y-2 w-full max-w-md">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#4CAF50]">
                 Преобразите свой{' '}
                 <span className="text-[#0A6847]">домашний сад</span> с легкостью
               </h1>
-              <p className="max-w-[600px] text-[#6A6A6A] md:text-xl mx-auto">
+              <p className="text-[#6A6A6A] md:text-xl">
                 Не упустите ни одной детали в уходе за растениями.
               </p>
             </div>
@@ -114,7 +117,7 @@ export default function Component() {
               <div>
                 <label
                   htmlFor="file"
-                  className="block text-sm font-medium text-[#4CAF50]"
+                  className="block text-sm font-medium text-[#4CAF50] mb-2"
                 >
                   Загрузите фото вашего растения
                 </label>

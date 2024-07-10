@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useDropzone } from 'react-dropzone'
 import axios from 'axios'
@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input'
 export default function DiseaseDetection() {
   const [file, setFile] = useState<File | null>(null)
   const [fileUrl, setFileUrl] = useState<string | null>(null)
+  const [loadingMessage, setLoadingMessage] = useState<string>('')
   const [loading, setLoading] = useState(false)
   const [questions, setQuestions] = useState<string[]>([])
   const [userAnswer, setUserAnswer] = useState<string>('')
@@ -20,6 +21,29 @@ export default function DiseaseDetection() {
   const [finalDiagnosis, setFinalDiagnosis] = useState<string | null>(null)
   const [previousContext, setPreviousContext] = useState<any>(null)
   const router = useRouter()
+
+  const loadingMessages = [
+    'Загружаем файл на сервер...',
+    'ИИ обрабатывает фото...',
+    'ИИ идентифицирует растение...',
+    'Получаем ответ с сервера...',
+    'Пожалуйста подождите...',
+    'Загрузка...'
+  ]
+
+  useEffect(() => {
+    if (loading) {
+      let index = 0
+      const intervalId = setInterval(() => {
+        setLoadingMessage(loadingMessages[index])
+        if (index < loadingMessages.length - 1) {
+          index++
+        }
+      }, 2000)
+
+      return () => clearInterval(intervalId)
+    }
+  }, [loading])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0] || null
@@ -47,6 +71,7 @@ export default function DiseaseDetection() {
     }
 
     setLoading(true)
+    setLoadingMessage('Загрузка...')
 
     const formData = new FormData()
     formData.append('file', file)
@@ -121,7 +146,7 @@ export default function DiseaseDetection() {
       <main className="flex-1 mt-14 px-4 md:px-6 py-12 md:py-24 lg:py-32 bg-[#F0F8F0]">
         <div className="container">
           <div className="flex flex-col items-center justify-center space-y-6">
-            <div className="space-y-2">
+            <div className="space-y-2 w-full max-w-md">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#4CAF50]">
                 Определите болезнь вашего{' '}
                 <span className="text-[#0A6847]">растения</span>
@@ -204,7 +229,8 @@ export default function DiseaseDetection() {
                   disabled={loading}
                   style={{ borderRadius: '5px' }}
                 >
-                  {loading ? 'Загрузка...' : 'Получить диагноз'}
+                  {/* {loading ? 'Загрузка...' : 'Получить диагноз'}  */}
+                  {loading ? loadingMessage : 'Получить диагноз'}
                 </Button>
               )}
             </form>
