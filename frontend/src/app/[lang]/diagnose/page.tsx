@@ -274,7 +274,7 @@ export default function DiseaseDetection() {
                   onChange={(e) => setUserAnswer(e.target.value)}
                   className="w-full rounded-md border-2 border-[#4CAF50] p-2"
                   rows={4}
-                  placeholder={t('yourAnswer')}
+                  placeholder={t('yourAnswer') as string}
                 ></textarea>
                 <Button
                   type="submit"
