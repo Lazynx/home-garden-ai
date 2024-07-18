@@ -29,13 +29,13 @@ export default function DiseaseDetection() {
   const { locale, t } = useTranslation()
   const router = useRouter()
 
-  const loadingMessages = [
-    t('uploadingFile'),
-    t('processingPhoto'),
-    t('identifyingPlant'),
-    t('gettingServerResponse'),
-    t('pleaseWait'),
-    t('loading')
+  const loadingMessages: string[] = [
+    t('uploadingFile') as string,
+    t('processingPhoto') as string,
+    t('identifyingPlant') as string,
+    t('gettingServerResponse') as string,
+    t('pleaseWait') as string,
+    t('loading') as string
   ]
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function DiseaseDetection() {
     }
 
     setLoading(true)
-    setLoadingMessage(t('loading'))
+    setLoadingMessage(t('loading') as string)
 
     const formData = new FormData()
     formData.append('file', file)
