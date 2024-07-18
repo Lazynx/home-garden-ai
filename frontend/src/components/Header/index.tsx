@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/context/AuthContext'
-import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import Select from 'react-select'
 import { FormControl } from '@mui/material'
 import { useTranslation } from '@/context/TranslationContext'
@@ -26,9 +25,6 @@ export default function Header({ bgColor }: HeaderProps) {
   const { locale, setLocale, t } = useTranslation()
 
   const { user, logout } = useAuth()
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
 
   useEffect(() => {
     const handleScroll = () => {
