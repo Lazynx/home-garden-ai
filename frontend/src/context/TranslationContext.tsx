@@ -8,7 +8,7 @@ import React, {
   useEffect
 } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
-import translations from './locales/translations.tsx'
+import translations from './locales/translations'
 
 interface TranslationContextProps {
   locale: string
