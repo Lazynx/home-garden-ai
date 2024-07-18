@@ -64,7 +64,7 @@ export default function Header({ bgColor }: HeaderProps) {
   ]
 
   const customStyles = {
-    control: (provided) => ({
+    control: (provided: any) => ({
       ...provided,
       minWidth: 120,
       borderColor: '#F0F8F0',
@@ -73,7 +73,7 @@ export default function Header({ bgColor }: HeaderProps) {
       backgroundColor: '#F0F8F0',
       cursor: 'pointer'
     }),
-    option: (provided) => ({
+    option: (provided: any) => ({
       ...provided,
       display: 'flex',
       alignItems: 'center',
@@ -81,7 +81,7 @@ export default function Header({ bgColor }: HeaderProps) {
       backgroundColor: '#F0F8F0',
       '&:hover': { backgroundColor: '#e6f4ea' }
     }),
-    singleValue: (provided) => ({
+    singleValue: (provided: any) => ({
       ...provided,
       display: 'flex',
       alignItems: 'center',
