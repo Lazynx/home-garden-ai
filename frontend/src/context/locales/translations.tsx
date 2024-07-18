@@ -9,7 +9,7 @@ const translations = {
     hello: 'Hello',
     userGarden: 'My garden',
     mainHeroTitle: (
-      <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl text-[#4CAF50]">
+      <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-[#4CAF50]">
         Transform your <span className="text-[#0A6847]">home garden</span> with
         ease
       </h1>
@@ -110,7 +110,7 @@ const translations = {
     hello: 'Здравствуйте',
     userGarden: 'Мой сад',
     mainHeroTitle: (
-      <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl text-[#4CAF50]">
+      <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-[#4CAF50]">
         Преобразите свой <span className="text-[#0A6847]">домашний сад</span> с
         легкостью
       </h1>
