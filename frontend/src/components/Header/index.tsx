@@ -54,8 +54,10 @@ export default function Header({ bgColor }: HeaderProps) {
     setIsMenuOpen(false)
   }
 
-  const handleLocaleChange = (selectedOption: LanguageOption) => {
-    setLocale(selectedOption.value)
+  const handleLocaleChange = (selectedOption: LanguageOption | null) => {
+    if (selectedOption) {
+      setLocale(selectedOption.value)
+    }
   }
 
   const languageOptions: LanguageOption[] = [
