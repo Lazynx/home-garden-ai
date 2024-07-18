@@ -13,6 +13,12 @@ interface HeaderProps {
   bgColor: string
 }
 
+interface LanguageOption {
+  value: string
+  label: string
+  icon: string
+}
+
 export default function Header({ bgColor }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -48,11 +54,11 @@ export default function Header({ bgColor }: HeaderProps) {
     setIsMenuOpen(false)
   }
 
-  const handleLocaleChange = (selectedOption) => {
+  const handleLocaleChange = (selectedOption: LanguageOption) => {
     setLocale(selectedOption.value)
   }
 
-  const languageOptions = [
+  const languageOptions: LanguageOption[] = [
     { value: 'en', label: 'English', icon: '🇬🇧' },
     { value: 'ru', label: 'Русский', icon: '🇷🇺' }
   ]
@@ -84,7 +90,7 @@ export default function Header({ bgColor }: HeaderProps) {
     })
   }
 
-  const formatOptionLabel = ({ label, icon }) => (
+  const formatOptionLabel = ({ label, icon }: LanguageOption) => (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <span style={{ marginRight: 10 }}>{icon}</span>
       {label}
