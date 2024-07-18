@@ -10,10 +10,16 @@ import React, {
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import translations from './locales/translations'
 
+interface Translations {
+  [locale: string]: {
+    [key: string]: string | JSX.Element
+  }
+}
+
 interface TranslationContextProps {
   locale: string
   setLocale: (locale: string) => void
-  t: (key: string) => string
+  t: (key: string) => string | JSX.Element
 }
 
 const TranslationContext = createContext<TranslationContextProps | undefined>(
@@ -38,14 +44,17 @@ export const TranslationProvider: React.FC<{
   }, [pathname])
 
   const t = (key: string) => {
-    if (translations[locale] && translations[locale][key]) {
-      return translations[locale][key]
+    const localeTranslations = (translations as Translations)[locale]
+    const enTranslations = (translations as Translations)['en']
+
+    if (localeTranslations && localeTranslations[key]) {
+      return localeTranslations[key]
     }
-    // Fallback to English if translation is missing
-    if (translations['en'] && translations['en'][key]) {
-      return translations['en'][key]
+
+    if (enTranslations && enTranslations[key]) {
+      return enTranslations[key]
     }
-    // Return the key if no translation is found
+
     return key
   }
 
