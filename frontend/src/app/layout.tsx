@@ -6,6 +6,7 @@ import { AuthProvider } from '@/context/AuthContext'
 import { TranslationProvider } from '@/context/TranslationContext'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { Suspense } from 'react'
 import './globals.css'
 
 const rubik = Rubik({
@@ -37,11 +38,13 @@ export default function RootLayout({
   return (
     <html lang={params.lang}>
       <body className={rubik.variable + ' ' + arimo.variable}>
-        <TranslationProvider initialLocale={params.lang || 'en'}>
-          <AuthProvider>{children}</AuthProvider>
-          <Analytics />
-          <SpeedInsights />
-        </TranslationProvider>
+        <Suspense fallback={<div>Loading...</div>}>
+          <TranslationProvider initialLocale={params.lang || 'en'}>
+            <AuthProvider>{children}</AuthProvider>
+            <Analytics />
+            <SpeedInsights />
+          </TranslationProvider>
+        </Suspense>
       </body>
     </html>
   )
