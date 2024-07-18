@@ -73,7 +73,7 @@ const Signup = () => {
                 setEmail(e.target.value)
               }
               className="w-full p-3 mt-1 text-black rounded-lg border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
-              placeholder={t('inputEmail')}
+              placeholder={t('inputEmail') as string}
               style={{ borderRadius: '10px' }}
             />
           </div>
@@ -86,7 +86,7 @@ const Signup = () => {
                 setUsername(e.target.value)
               }
               className="w-full p-3 mt-1 text-black rounded-lg border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
-              placeholder={t('inputName')}
+              placeholder={t('inputName') as string}
               style={{ borderRadius: '10px' }}
             />
           </div>
@@ -102,7 +102,7 @@ const Signup = () => {
                   setPassword(e.target.value)
                 }
                 className="w-full p-3 mt-1 text-black rounded-lg border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
-                placeholder={t('passwordCreationText')}
+                placeholder={t('passwordCreationText') as string}
                 style={{ borderRadius: '10px' }}
               />
               <button
@@ -126,7 +126,7 @@ const Signup = () => {
                   setConfirmPassword(e.target.value)
                 }
                 className="w-full p-3 mt-1 text-black rounded-lg border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
-                placeholder={t('passwordConfirmationText')}
+                placeholder={t('passwordConfirmationText') as string}
                 style={{ borderRadius: '10px' }}
               />
               <button

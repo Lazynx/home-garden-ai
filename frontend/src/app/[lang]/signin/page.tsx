@@ -66,7 +66,7 @@ const Login = () => {
                 setEmail(e.target.value)
               }
               className="w-full p-3 mt-1 text-black rounded-lg border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
-              placeholder={t('inputEmail')}
+              placeholder={t('inputEmail') as string}
               style={{ borderRadius: '10px' }}
             />
           </div>
@@ -80,7 +80,7 @@ const Login = () => {
                   setPassword(e.target.value)
                 }
                 className="w-full p-3 mt-1 text-black rounded-lg border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
-                placeholder={t('passwordCreationText')}
+                placeholder={t('passwordCreationText') as string}
                 style={{ borderRadius: '10px' }}
               />
               <button
