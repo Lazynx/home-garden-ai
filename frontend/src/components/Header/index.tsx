@@ -1,7 +1,13 @@
+'use client'
+
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/context/AuthContext'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import Select from 'react-select'
+import { FormControl } from '@mui/material'
+import { useTranslation } from '@/context/TranslationContext'
 
 interface HeaderProps {
   bgColor: string
@@ -11,8 +17,12 @@ export default function Header({ bgColor }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { locale, setLocale, t } = useTranslation()
 
   const { user, logout } = useAuth()
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,6 +47,49 @@ export default function Header({ bgColor }: HeaderProps) {
     logout()
     setIsMenuOpen(false)
   }
+
+  const handleLocaleChange = (selectedOption) => {
+    setLocale(selectedOption.value)
+  }
+
+  const languageOptions = [
+    { value: 'en', label: 'English', icon: '🇬🇧' },
+    { value: 'ru', label: 'Русский', icon: '🇷🇺' }
+  ]
+
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      minWidth: 120,
+      borderColor: '#F0F8F0',
+      '&:hover': { borderColor: '#F0F8F0' },
+      boxShadow: 'none',
+      backgroundColor: '#F0F8F0',
+      cursor: 'pointer'
+    }),
+    option: (provided) => ({
+      ...provided,
+      display: 'flex',
+      alignItems: 'center',
+      color: '#4CAF50',
+      backgroundColor: '#F0F8F0',
+      '&:hover': { backgroundColor: '#e6f4ea' }
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      display: 'flex',
+      alignItems: 'center',
+      backgroundColor: '#F0F8F0',
+      color: '#4CAF50'
+    })
+  }
+
+  const formatOptionLabel = ({ label, icon }) => (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <span style={{ marginRight: 10 }}>{icon}</span>
+      {label}
+    </div>
+  )
 
   return (
     <div>
@@ -91,7 +144,7 @@ export default function Header({ bgColor }: HeaderProps) {
                 <span className="sr-only">Toggle menu</span>
               </Button>
               <Link
-                href="/"
+                href={`/${locale}/`}
                 className="flex items-center mx-auto lg:ml-0"
                 prefetch={false}
               >
@@ -117,7 +170,11 @@ export default function Header({ bgColor }: HeaderProps) {
             </>
           ) : (
             <>
-              <Link href="/" className="flex items-center" prefetch={false}>
+              <Link
+                href={`/${locale}/`}
+                className="flex items-center"
+                prefetch={false}
+              >
                 <svg
                   className="h-6 w-6 text-[#4CAF50]"
                   xmlns="http://www.w3.org/2000/svg"
@@ -263,21 +320,21 @@ export default function Header({ bgColor }: HeaderProps) {
                         </g>
                       </svg>
                       <p className="text-sm text-[#4CAF50] mt-2">
-                        Здравствуйте,{' '}
+                        {t('hello')},{' '}
                         <span className="text-[#0A6847]">{user.username}</span>!
                       </p>
                       <Link
-                        href={`/garden/${user._id}`}
+                        href={`/${locale}/garden/${user._id}`}
                         className="mt-4 w-full text-center px-4 py-2 text-sm text-[#4CAF50] hover:bg-gray-100 mb-2 inline-block"
                         prefetch={false}
                       >
-                        Мой Сад
+                        {t('garden')}
                       </Link>
                       <button
                         onClick={handleLogout}
                         className="w-full text-center px-4 py-2 text-sm text-[#4CAF50] hover:bg-gray-100"
                       >
-                        Выйти
+                        {t('logout')}
                       </button>
                     </div>
                   </div>
@@ -288,33 +345,47 @@ export default function Header({ bgColor }: HeaderProps) {
         </div>
         <nav className="hidden lg:flex ml-auto gap-4 sm:gap-6 items-center">
           <Link
-            href="/"
+            href={`/${locale}/`}
             className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
             prefetch={false}
           >
-            Главная
+            {t('home')}
           </Link>
           <Link
-            href="/scan"
+            href={`/${locale}/scan`}
             className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
             prefetch={false}
           >
-            Сканировать
+            {t('scan')}
           </Link>
           <Link
-            href="/diagnose"
+            href={`/${locale}/diagnose`}
             className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
             prefetch={false}
           >
-            Заболевания
+            {t('diagnose')}
           </Link>
           <Link
-            href="/plants"
+            href={`/${locale}/plants`}
             className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
             prefetch={false}
           >
-            Общий Сад
+            {t('garden')}
           </Link>
+          <FormControl
+            variant="outlined"
+            className="mr-5"
+            sx={{ backgroundColor: '#F0F8F0' }}
+          >
+            <Select
+              value={languageOptions.find((option) => option.value === locale)}
+              onChange={(selectedOption) => handleLocaleChange(selectedOption)}
+              options={languageOptions}
+              styles={customStyles}
+              formatOptionLabel={formatOptionLabel}
+              placeholder={t('language')}
+            />
+          </FormControl>
           {user ? (
             <div className="relative flex items-center gap-2">
               <svg
@@ -397,21 +468,21 @@ export default function Header({ bgColor }: HeaderProps) {
                         </g>
                       </svg>
                       <p className="text-sm text-[#4CAF50] mt-2">
-                        Здравствуйте,{' '}
+                        {t('hello')},{' '}
                         <span className="text-[#0A6847]">{user.username}</span>!
                       </p>
                       <Link
-                        href={`/garden/${user._id}`}
+                        href={`/${locale}/garden/${user._id}`}
                         className="mt-4 w-full text-center px-4 py-2 text-sm text-[#4CAF50] hover:bg-gray-100 mb-2 inline-block"
                         prefetch={false}
                       >
-                        Мой Сад
+                        {t('userGarden')}
                       </Link>
                       <button
                         onClick={handleLogout}
                         className="w-full text-center px-4 py-2 text-sm text-[#4CAF50] hover:bg-gray-100"
                       >
-                        Выйти
+                        {t('logout')}
                       </button>
                     </div>
                   </div>
@@ -420,11 +491,11 @@ export default function Header({ bgColor }: HeaderProps) {
             </div>
           ) : (
             <Link
-              href="/signin"
+              href={`/${locale}/signin`}
               className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
               prefetch={false}
             >
-              Войти
+              {t('login')}
             </Link>
           )}
         </nav>
@@ -437,7 +508,11 @@ export default function Header({ bgColor }: HeaderProps) {
         style={{ backgroundColor: 'white' }}
       >
         <div className="flex items-center justify-between px-4 h-14 border-b">
-          <Link href="/" className="flex items-center" prefetch={false}>
+          <Link
+            href={`/${locale}/`}
+            className="flex items-center"
+            prefetch={false}
+          >
             <svg
               className="h-6 w-6 text-[#4CAF50]"
               xmlns="http://www.w3.org/2000/svg"
@@ -483,49 +558,63 @@ export default function Header({ bgColor }: HeaderProps) {
         </div>
         <div className="flex flex-col gap-4 p-6 pt-10 bg-white w-full h-full items-left">
           <Link
-            href="/"
+            href={`/${locale}/`}
             className="text-base font-bold text-[#4CAF50] hover:underline underline-offset-4"
             prefetch={false}
             onClick={() => setIsMenuOpen(false)}
           >
-            Главная
+            {t('home')}
           </Link>
           <Link
-            href="/scan"
+            href={`/${locale}/scan`}
             className="text-base font-bold text-[#4CAF50] hover:underline underline-offset-4"
             prefetch={false}
             onClick={() => setIsMenuOpen(false)}
           >
-            Сканировать
+            {t('scan')}
           </Link>
           <Link
-            href="/diagnose"
+            href={`/${locale}/diagnose`}
             className="text-base font-bold text-[#4CAF50] hover:underline underline-offset-4"
             prefetch={false}
             onClick={() => setIsMenuOpen(false)}
           >
-            Заболевания
+            {t('diagnose')}
           </Link>
           <Link
-            href="/plants"
+            href={`/${locale}/plants`}
             className="text-base font-bold text-[#4CAF50] hover:underline underline-offset-4"
             prefetch={false}
             onClick={() => setIsMenuOpen(false)}
           >
-            Общий Сад
+            {t('garden')}
           </Link>
           {user ? (
             <></>
           ) : (
             <Link
-              href="/signin"
+              href={`/${locale}/signin`}
               className="text-base font-bold text-[#4CAF50] hover:underline underline-offset-4"
               prefetch={false}
               onClick={() => setIsMenuOpen(false)}
             >
-              Войти
+              {t('login')}
             </Link>
           )}
+          <FormControl
+            variant="outlined"
+            className="mr-5"
+            sx={{ backgroundColor: '#F0F8F0' }}
+          >
+            <Select
+              value={languageOptions.find((option) => option.value === locale)}
+              onChange={(selectedOption) => handleLocaleChange(selectedOption)}
+              options={languageOptions}
+              styles={customStyles}
+              formatOptionLabel={formatOptionLabel}
+              placeholder={t('language')}
+            />
+          </FormControl>
         </div>
       </div>
     </div>

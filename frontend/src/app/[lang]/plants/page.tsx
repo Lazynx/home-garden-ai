@@ -9,22 +9,29 @@ import Image from 'next/image'
 import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
+import { useTranslation } from '@/context/TranslationContext'
 
 // Определяем интерфейс для растения
 interface Plant {
   _id: string
   name: string
+  nameEn: string
   description: string
+  descriptionEn: string
   soilComposition: string
+  soilCompositionEn: string
   homeTemperature: string
+  homeTemperatureEn: string
   sunlightExposure: string
+  sunlightExposureEn: string
   image: string
-  createdAt: string // Добавляем поле даты создания
+  createdAt: string
 }
 
 export default function Component() {
   const [plants, setPlants] = useState<Plant[]>([])
   const [loading, setLoading] = useState(true)
+  const { locale, t } = useTranslation()
 
   useEffect(() => {
     const fetchPlants = async () => {
@@ -81,10 +88,12 @@ export default function Component() {
                 <div className="p-4 bg-background flex-grow flex flex-col justify-between">
                   <div>
                     <h3 className="text-xl font-bold text-[#4CAF50]">
-                      {plant.name}
+                      {locale === 'en' ? plant.nameEn : plant.name}
                     </h3>
                     <p className="text-sm text-[#6A6A6A]">
-                      {plant.description}
+                      {locale === 'en'
+                        ? plant.descriptionEn
+                        : plant.description}
                     </p>
                     <div className="flex items-center gap-2">
                       <svg
@@ -104,7 +113,11 @@ export default function Component() {
                         <path d="M11 21.95V18a2 2 0 0 0-2-2v0a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
                         <circle cx="12" cy="12" r="10" />
                       </svg>
-                      <p className="text-[#6A6A6A]">{plant.soilComposition}</p>
+                      <p className="text-[#6A6A6A]">
+                        {locale === 'en'
+                          ? plant.soilCompositionEn
+                          : plant.soilComposition}
+                      </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <svg
@@ -121,7 +134,11 @@ export default function Component() {
                       >
                         <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z" />
                       </svg>
-                      <p className="text-[#6A6A6A]">{plant.homeTemperature}</p>
+                      <p className="text-[#6A6A6A]">
+                        {locale === 'en'
+                          ? plant.homeTemperatureEn
+                          : plant.homeTemperature}
+                      </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <svg
@@ -146,16 +163,20 @@ export default function Component() {
                         <path d="m6.34 17.66-1.41 1.41" />
                         <path d="m19.07 4.93-1.41 1.41" />
                       </svg>
-                      <p className="text-[#6A6A6A]">{plant.sunlightExposure}</p>
+                      <p className="text-[#6A6A6A]">
+                        {locale === 'en'
+                          ? plant.sunlightExposureEn
+                          : plant.sunlightExposure}
+                      </p>
                     </div>
                   </div>
                   <Link
-                    href={`/plants/${plant._id}`}
+                    href={`/${locale}/plants/${plant._id}`}
                     className="mt-4 inline-flex h-12 items-center justify-center rounded-md bg-[#4CAF50] px-4 text-sm font-medium text-white transition-colors hover:bg-[#3D8E40] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 w-full"
                     style={{ borderRadius: '5px' }}
                     prefetch={false}
                   >
-                    Перейти
+                    {t('go')}
                   </Link>
                 </div>
               </div>

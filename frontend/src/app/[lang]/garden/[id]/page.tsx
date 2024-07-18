@@ -10,20 +10,28 @@ import { useAuth } from '@/context/AuthContext'
 import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress'
 import dayjs from 'dayjs'
+import { useTranslation } from '@/context/TranslationContext'
 
 interface Plant {
   _id: string
   name: string
+  nameEn: string
   description: string
+  descriptionEn: string
   soilComposition: string
+  soilCompositionEn: string
   homeTemperature: string
+  homeTemperatureEn: string
   sunlightExposure: string
+  sunlightExposureEn: string
   image: string
   wateringFrequency: number
   lastWateredDate: string
   createdAt: string
   fertilizer: string
+  fertilizerEn: string
   fertilizerFrequency: string
+  fertilizerFrequencyEn: string
 }
 
 interface Garden {
@@ -38,6 +46,7 @@ export default function Home() {
   const [garden, setGarden] = useState<Garden | null>(null)
   const [plants, setPlants] = useState<Plant[]>([])
   const [loading, setLoading] = useState(true)
+  const { locale, t } = useTranslation()
 
   useEffect(() => {
     if (user && user._id) {
@@ -98,11 +107,12 @@ export default function Home() {
         <Header bgColor="bg-[#F0F8F0]" />
         <main className="flex-1 mt-14 px-4 md:px-6 py-12 md:py-24 lg:py-32 bg-[#F0F8F0]">
           <div className="container text-center">
-            <p className="text-lg text-[#6A6A6A]">
-              Вы еще не добавили ничего в ваш сад.
-            </p>
-            <Link href="/scan" className="text-[#4CAF50] hover:underline">
-              Отсканируйте растение
+            <p className="text-lg text-[#6A6A6A]">{t('noPlantsInGarden')}</p>
+            <Link
+              href={`/${locale}/scan`}
+              className="text-[#4CAF50] hover:underline"
+            >
+              {t('scanPlant')}
             </Link>
           </div>
         </main>
@@ -189,10 +199,12 @@ export default function Home() {
                 <div className="p-4 bg-background flex-grow flex flex-col justify-between">
                   <div>
                     <h3 className="text-xl font-bold text-[#4CAF50]">
-                      {plant.name}
+                      {locale === 'en' ? plant.nameEn : plant.name}
                     </h3>
                     <p className="text-sm text-[#6A6A6A]">
-                      {plant.description}
+                      {locale === 'en'
+                        ? plant.descriptionEn
+                        : plant.description}
                     </p>
                     <div className="flex items-center gap-2">
                       <svg
@@ -212,7 +224,11 @@ export default function Home() {
                         <path d="M11 21.95V18a2 2 0 0 0-2-2v0a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
                         <circle cx="12" cy="12" r="10" />
                       </svg>
-                      <p className="text-[#6A6A6A]">{plant.soilComposition}</p>
+                      <p className="text-[#6A6A6A]">
+                        {locale === 'en'
+                          ? plant.soilCompositionEn
+                          : plant.soilComposition}
+                      </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <svg
@@ -229,7 +245,11 @@ export default function Home() {
                       >
                         <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z" />
                       </svg>
-                      <p className="text-[#6A6A6A]">{plant.homeTemperature}</p>
+                      <p className="text-[#6A6A6A]">
+                        {locale === 'en'
+                          ? plant.homeTemperatureEn
+                          : plant.homeTemperature}
+                      </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <svg
@@ -254,7 +274,11 @@ export default function Home() {
                         <path d="m6.34 17.66-1.41 1.41" />
                         <path d="m19.07 4.93-1.41 1.41" />
                       </svg>
-                      <p className="text-[#6A6A6A]">{plant.sunlightExposure}</p>
+                      <p className="text-[#6A6A6A]">
+                        {locale === 'en'
+                          ? plant.sunlightExposureEn
+                          : plant.sunlightExposure}
+                      </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <svg
@@ -312,7 +336,11 @@ export default function Home() {
                       </svg>
                       <p className="text-[#6A6A6A]">
                         {plant.wateringFrequency}{' '}
-                        {plant.wateringFrequency === 1
+                        {locale === 'en'
+                          ? plant.wateringFrequency === 1
+                            ? 'time a week'
+                            : 'times a week'
+                          : plant.wateringFrequency === 1
                           ? 'раз в неделю'
                           : 'раза в неделю'}
                       </p>
@@ -351,18 +379,24 @@ export default function Home() {
                           </g>
                         </svg>
                         <p className="text-[#6A6A6A]">
-                          {plant.fertilizer}, {plant.fertilizerFrequency}
+                          {locale === 'en'
+                            ? plant.fertilizerEn
+                            : plant.fertilizer}
+                          ,{' '}
+                          {locale === 'en'
+                            ? plant.fertilizerFrequencyEn
+                            : plant.fertilizerFrequency}
                         </p>
                       </div>
                     )}
                   </div>
                   <Link
-                    href={`/garden/plant/${plant._id}`}
+                    href={`/${locale}/garden/plant/${plant._id}`}
                     className="mt-4 inline-flex h-12 items-center justify-center rounded-md bg-[#4CAF50] px-4 text-sm font-medium text-white transition-colors hover:bg-[#3D8E40] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 w-full"
                     style={{ borderRadius: '5px' }}
                     prefetch={false}
                   >
-                    Перейти
+                    {t('go')}
                   </Link>
                 </div>
               </div>

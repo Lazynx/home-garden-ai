@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import { Rubik } from 'next/font/google'
 import { Arimo } from 'next/font/google'
 import { AuthProvider } from '@/context/AuthContext'
+import { TranslationProvider } from '@/context/TranslationContext'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import './globals.css'
@@ -27,16 +28,20 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
-  children
+  children,
+  params
 }: Readonly<{
   children: React.ReactNode
+  params: { lang: string }
 }>) {
   return (
-    <html lang="en">
+    <html lang={params.lang}>
       <body className={rubik.variable + ' ' + arimo.variable}>
-        <AuthProvider>{children}</AuthProvider>
-        <Analytics />
-        <SpeedInsights />
+        <TranslationProvider initialLocale={params.lang || 'en'}>
+          <AuthProvider>{children}</AuthProvider>
+          <Analytics />
+          <SpeedInsights />
+        </TranslationProvider>
       </body>
     </html>
   )

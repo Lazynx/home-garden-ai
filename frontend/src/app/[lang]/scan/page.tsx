@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Image from 'next/image'
@@ -10,21 +9,23 @@ import Header from '@/components/Header/index'
 import Footer from '@/components/Footer/footer'
 import axios from 'axios'
 import { useDropzone } from 'react-dropzone'
+import { useTranslation } from '@/context/TranslationContext'
 
 export default function Component() {
   const [file, setFile] = useState<File | null>(null)
   const [fileUrl, setFileUrl] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [loadingMessage, setLoadingMessage] = useState<string>('')
+  const { locale, t } = useTranslation()
   const router = useRouter()
 
   const loadingMessages = [
-    'Загружаем файл на сервер...',
-    'ИИ обрабатывает фото...',
-    'ИИ идентифицирует растение...',
-    'Получаем ответ с сервера...',
-    'Пожалуйста подождите...',
-    'Загрузка...'
+    t('uploadingFile'),
+    t('processingPhoto'),
+    t('identifyingPlant'),
+    t('gettingServerResponse'),
+    t('pleaseWait'),
+    t('loading')
   ]
 
   useEffect(() => {
@@ -73,7 +74,7 @@ export default function Component() {
     }
 
     setLoading(true)
-    setLoadingMessage('Загрузка...')
+    setLoadingMessage(t('loading'))
 
     const formData = new FormData()
     formData.append('plant', file)
@@ -89,7 +90,7 @@ export default function Component() {
       }
 
       const data = response.data
-      router.push(`/plants/${data._id}`)
+      router.push(`/${locale}/plants/${data._id}`)
     } catch (error) {
       console.error('Error uploading file:', error)
       alert('Error uploading file. Please try again.')
@@ -105,12 +106,9 @@ export default function Component() {
         <div className="container">
           <div className="flex flex-col items-center justify-center space-y-6">
             <div className="space-y-2 w-full max-w-md">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#4CAF50]">
-                Преобразите свой{' '}
-                <span className="text-[#0A6847]">домашний сад</span> с легкостью
-              </h1>
+              {t('mainHeroTitle')}
               <p className="text-[#6A6A6A] md:text-xl">
-                Не упустите ни одной детали в уходе за растениями.
+                {t('mainHeroSubtitle')}
               </p>
             </div>
             <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
@@ -119,7 +117,7 @@ export default function Component() {
                   htmlFor="file"
                   className="block text-sm font-medium text-[#4CAF50] mb-2"
                 >
-                  Загрузите фото вашего растения
+                  {t('plantUpload')}
                 </label>
                 <div className="mt-1">
                   <div
@@ -164,7 +162,7 @@ export default function Component() {
                             htmlFor="file"
                             className="relative cursor-pointer rounded-md font-medium text-[#4CAF50] hover:text-[#3D8E40] focus-within:outline-none focus-within:ring-2 focus-within:ring-[#4CAF50] focus-within:ring-offset-2"
                           >
-                            <span>Загрузите файл</span>
+                            <span>{t('fileUpload')}</span>
                             <Input
                               type="file"
                               id="file"
@@ -185,7 +183,7 @@ export default function Component() {
                 disabled={loading}
                 style={{ borderRadius: '5px' }}
               >
-                {loading ? loadingMessage : 'Получить рекомендации'}
+                {loading ? loadingMessage : t('getRecommendations')}
               </Button>
             </form>
           </div>

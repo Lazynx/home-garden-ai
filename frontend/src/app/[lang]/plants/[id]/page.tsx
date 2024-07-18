@@ -25,6 +25,7 @@ import {
   FormControl,
   InputLabel
 } from '@mui/material'
+import { useTranslation } from '@/context/TranslationContext'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -38,10 +39,15 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 interface Plant {
   _id: string
   name: string
+  nameEn: string
   description: string
+  descriptionEn: string
   soilComposition: string
+  soilCompositionEn: string
   homeTemperature: string
+  homeTemperatureEn: string
   sunlightExposure: string
+  sunlightExposureEn: string
   image: string
 }
 
@@ -60,6 +66,7 @@ export default function Component() {
   const [loading, setLoading] = useState(false)
   const [isPlantInGarden, setIsPlantInGarden] = useState(false)
   const [open, setOpen] = useState(false)
+  const { locale, t } = useTranslation()
 
   // Modal form states
   const [soilType, setSoilType] = useState('')
@@ -121,7 +128,7 @@ export default function Component() {
     if (typeof window !== 'undefined') {
       setRedirectedFrom(window.location.pathname)
     }
-    router.push('/signin')
+    router.push(`/${locale}/signup`)
   }
 
   const handleAddToGarden = () => {
@@ -257,10 +264,12 @@ export default function Component() {
             <div className="space-y-6">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#4CAF50]">
-                  {plantInfo.name}
+                  {locale === 'en' ? plantInfo.nameEn : plantInfo.name}
                 </h1>
                 <p className="max-w-[600px] text-[#6A6A6A] md:text-xl">
-                  {plantInfo.description}
+                  {locale === 'en'
+                    ? plantInfo.descriptionEn
+                    : plantInfo.description}
                 </p>
               </div>
               <div className="grid gap-2">
@@ -284,10 +293,12 @@ export default function Component() {
                   </svg>
                   <div>
                     <h3 className="font-semibold text-[#4CAF50]">
-                      Состав почвы
+                      {t('soilComposition')}
                     </h3>
                     <p className="text-[#6A6A6A]">
-                      {plantInfo.soilComposition}
+                      {locale === 'en'
+                        ? plantInfo.soilCompositionEn
+                        : plantInfo.soilComposition}
                     </p>
                   </div>
                 </div>
@@ -308,10 +319,12 @@ export default function Component() {
                   </svg>
                   <div>
                     <h3 className="font-semibold text-[#4CAF50]">
-                      Температура в доме
+                      {t('homeTemperature')}
                     </h3>
                     <p className="text-[#6A6A6A]">
-                      {plantInfo.homeTemperature}
+                      {locale === 'en'
+                        ? plantInfo.homeTemperatureEn
+                        : plantInfo.homeTemperature}
                     </p>
                   </div>
                 </div>
@@ -340,10 +353,12 @@ export default function Component() {
                   </svg>
                   <div>
                     <h3 className="font-semibold text-[#4CAF50]">
-                      Воздействие солнечного света
+                      {t('sunlightExposure')}
                     </h3>
                     <p className="text-[#6A6A6A]">
-                      {plantInfo.sunlightExposure}
+                      {locale === 'en'
+                        ? plantInfo.sunlightExposureEn
+                        : plantInfo.sunlightExposure}
                     </p>
                   </div>
                 </div>
@@ -356,16 +371,16 @@ export default function Component() {
                   onClick={handleAddToGarden}
                   disabled={loading}
                 >
-                  {loading ? 'Добавление...' : 'Добавить в сад'}
+                  {loading ? t('adding') : t('addToGarden')}
                 </Button>
               ) : (
-                <Link href={`/garden/${user._id}`} passHref>
+                <Link href={`/${locale}/garden/${user._id}`} passHref>
                   <Button
                     type="button"
                     className="w-full rounded-md pt-4 bg-[#4CAF50] px-4 py-2 text-white transition-colors hover:bg-[#3D8E40] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                     style={{ borderRadius: '5px' }}
                   >
-                    Мой Сад
+                    {t('userGarden')}
                   </Button>
                 </Link>
               )}
@@ -389,7 +404,7 @@ export default function Component() {
           sx={{ m: 0, p: 2, color: '#4CAF50' }}
           id="customized-dialog-title"
         >
-          Информация о вашем растении
+          {t('infoAboutPlant')}
         </DialogTitle>
         <IconButton
           aria-label="close"
@@ -408,28 +423,24 @@ export default function Component() {
             {/* Растение успешно добавлено в ваш сад. */}
           </Typography>
           <FormControl fullWidth sx={{ my: 2 }}>
-            <InputLabel id="soil-select-label">Тип почвы</InputLabel>
+            <InputLabel id="soil-select-label">{t('soilType')}</InputLabel>
             <Select
               labelId="soil-select-label"
               id="soil-select"
               value={soilType}
               onChange={(e) => setSoilType(e.target.value)}
-              label="Тип почвы"
+              label={t('soilType')}
             >
-              <MenuItem value="Универсальный грунт">
-                Универсальный грунт
-              </MenuItem>
+              <MenuItem value="Универсальный грунт">{t('soilType1')}</MenuItem>
               <MenuItem value="Суккулентный и кактусовый грунт">
-                Суккулентный и кактусовый грунт
+                {t('soilType2')}
               </MenuItem>
-              <MenuItem value="Орхидейный субстрат">
-                Орхидейный субстрат
-              </MenuItem>
-              <MenuItem value="custom">Пользовательский вид почвы</MenuItem>
+              <MenuItem value="Орхидейный субстрат">{t('soilType3')}</MenuItem>
+              <MenuItem value="custom">{t('soilType4Custom')}</MenuItem>
             </Select>
             {soilType === 'custom' && (
               <TextField
-                label="Пользовательский вид почвы"
+                label={t('soilType4Custom')}
                 variant="outlined"
                 fullWidth
                 value={customSoilType}
@@ -439,40 +450,40 @@ export default function Component() {
             )}
           </FormControl>
           <FormControl fullWidth sx={{ my: 2 }}>
-            <InputLabel id="light-select-label">Тип освещения</InputLabel>
+            <InputLabel id="light-select-label">{t('sunlightType')}</InputLabel>
             <Select
               labelId="light-select-label"
               id="light-select"
               value={lightType}
               onChange={(e) => setLightType(e.target.value)}
-              label="Тип освещения"
+              label={t('sunlightType')}
             >
               <MenuItem value="Естественное освещение">
-                Естественное освещение
+                {t('sunlightType1')}
               </MenuItem>
               <MenuItem value="Флуоресцентное освещение">
-                Флуоресцентное освещение
+                {t('sunlightType2')}
               </MenuItem>
-              <MenuItem value="светодиодное (LED) освещение">
-                светодиодное (LED) освещение
+              <MenuItem value="Светодиодное (LED) освещение">
+                {t('sunlightType3')}
               </MenuItem>
             </Select>
           </FormControl>
           <FormControl fullWidth sx={{ my: 2 }}>
-            <InputLabel id="side-select-label">Сторона</InputLabel>
+            <InputLabel id="side-select-label">{t('sideType')}</InputLabel>
             <Select
               labelId="side-select-label"
               id="side-select"
               value={sideType}
               onChange={(e) => setSideType(e.target.value)}
-              label="Сторона"
+              label={t('sideType')}
             >
-              <MenuItem value="Солнечная сторона">Солнечная сторона</MenuItem>
-              <MenuItem value="Темная сторона">Темная сторона</MenuItem>
+              <MenuItem value="Солнечная сторона">{t('sideType1')}</MenuItem>
+              <MenuItem value="Темная сторона">{t('sideType2')}</MenuItem>
             </Select>
           </FormControl>
           <TextField
-            label="Дата последнего полива"
+            label={t('lastWateredDate')}
             type="date"
             fullWidth
             sx={{ my: 2 }}
@@ -483,7 +494,7 @@ export default function Component() {
             onChange={(e) => setLastWateredDate(e.target.value)}
           />
           <TextField
-            label="Размер горшка (необязательно)"
+            label={t('potSize')}
             type="text"
             fullWidth
             sx={{ my: 2 }}
@@ -498,7 +509,7 @@ export default function Component() {
             className="text-[#4CAF50]"
             disabled={loading}
           >
-            {loading ? <CircularProgress size={24} /> : 'Добавить'}
+            {loading ? <CircularProgress size={24} /> : t('add')}
           </Button>
         </DialogActions>
       </BootstrapDialog>
