@@ -9,7 +9,7 @@ const translations = {
     hello: 'Hello',
     userGarden: 'My garden',
     mainHeroTitle: (
-      <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-[#4CAF50]">
+      <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl text-[#4CAF50]">
         Transform your <span className="text-[#0A6847]">home garden</span> with
         ease
       </h1>
