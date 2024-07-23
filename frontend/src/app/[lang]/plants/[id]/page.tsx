@@ -273,6 +273,9 @@ export default function Component() {
                 </p>
               </div>
               <div className="grid gap-2">
+                <h2 className="text-xl font-bold tracking-tighter sm:text-3xl md:text-4xl text-[#4CAF50]">
+                  {t('careRecommendationsOne')}:
+                </h2>
                 <div className="flex items-center gap-2">
                   <svg
                     className="h-6 w-6 text-[#4CAF50]"
@@ -374,10 +377,14 @@ export default function Component() {
                   {loading ? t('adding') : t('addToGarden')}
                 </Button>
               ) : (
-                <Link href={`/${locale}/garden/${user._id}`} passHref>
+                <Link
+                  href={`/${locale}/garden/${user._id}`}
+                  passHref
+                  className="py-2 mt-5"
+                >
                   <Button
                     type="button"
-                    className="w-full rounded-md pt-4 bg-[#4CAF50] px-4 py-2 text-white transition-colors hover:bg-[#3D8E40] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                    className="w-full rounded-md pt-4 mt-3 bg-[#4CAF50] px-4 py-2 text-white transition-colors hover:bg-[#3D8E40] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                     style={{ borderRadius: '5px' }}
                   >
                     {t('userGarden')}

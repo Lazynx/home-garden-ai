@@ -21,6 +21,7 @@ const translations = {
     mainSectionPar:
       'Our HomeGardenAI app will save you the guesswork of caring for plants by providing personalized recommendations and tips to make your indoor and garden plants thrive.',
     careRecommendations: 'Care Recommendations',
+    careRecommendationsOne: 'Recommendations for care',
     careRecommendationsText:
       'Get personalized care advice for your plants, considering their specific needs and your environment.',
     growthTracking: 'Growth Tracking',
@@ -40,8 +41,8 @@ const translations = {
     loading: 'Loading...',
     diagnoseHeroTitle: (
       <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#4CAF50]">
-        Identify the disease of your{' '}
-        <span className="text-[#0A6847]">plant</span>
+        Identify the <span className="text-[#0A6847]">disease</span> of your
+        plant
       </h1>
     ),
     diagnoseHeroSubtitle:
@@ -65,7 +66,7 @@ const translations = {
     homeTemperature: 'Temperature in the house',
     sunlightExposure: 'Exposure to sunlight',
     adding: 'Adding...',
-    addToGarden: 'Add to garden',
+    addToGarden: 'Create a watering schedule',
     infoAboutPlant: 'Information about your plant',
 
     soilType: 'Soil type',
@@ -84,6 +85,7 @@ const translations = {
     sideType2: 'Dark side',
 
     lastWateredDate: 'Last watered date',
+    nextWateredDate: 'Next watering',
     potSize: 'Pot size (optional)',
 
     add: 'Add',
@@ -111,8 +113,8 @@ const translations = {
     userGarden: 'Мой сад',
     mainHeroTitle: (
       <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-[#4CAF50]">
-        Преобразите свой <span className="text-[#0A6847]">домашний сад</span> с
-        легкостью
+        Получить <span className="text-[#0A6847]">рекомендации</span> по уходу
+        за растениями
       </h1>
     ),
     mainHeroSubtitle: 'Не упустите ни одной детали в уходе за растениями.',
@@ -122,6 +124,7 @@ const translations = {
     mainSectionPar:
       'Наше приложение HomeGardenAI избавит вас от догадок в уходе за растениями, предоставляя персонализированные рекомендации и советы, чтобы ваши комнатные и садовые растения процветали.',
     careRecommendations: 'Рекомендации по уходу за растениями',
+    careRecommendationsOne: 'Рекомендации по уходу',
     careRecommendationsText:
       'Получайте персонализированные советы по уходу за вашими растениями с учетом их специфических нужд и вашего окружения.',
     growthTracking: 'Отслеживание роста',
@@ -131,7 +134,7 @@ const translations = {
     personalizedTipsText:
       'Получайте индивидуальные советы и рекомендации, чтобы ваши растения процветали в уникальных условиях вашего окружения.',
     plantUpload: 'Загрузите фото вашего растения',
-    fileUpload: 'Загрузите файл',
+    fileUpload: 'Нажиите чтобы сделать фото',
     getRecommendations: 'Получить рекомендации',
     uploadingFile: 'Загружаем файл на сервер...',
     processingPhoto: 'ИИ обрабатывает фото...',
@@ -141,8 +144,8 @@ const translations = {
     loading: 'Загрузка...',
     diagnoseHeroTitle: (
       <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#4CAF50]">
-        Определите болезнь вашего{' '}
-        <span className="text-[#0A6847]">растения</span>
+        Определите <span className="text-[#0A6847]">болезнь</span> вашего
+        растения
       </h1>
     ),
     diagnoseHeroSubtitle:
@@ -166,7 +169,7 @@ const translations = {
     homeTemperature: 'Температура в доме',
     sunlightExposure: 'Воздействие солнечного света',
     adding: 'Добавление...',
-    addToGarden: 'Добавить в сад',
+    addToGarden: 'Сформировать расписание полива',
 
     infoAboutPlant: 'Информация о вашем растении',
 
@@ -174,18 +177,19 @@ const translations = {
     soilType1: 'Универсальный грунт',
     soilType2: 'Суккулентный и кактусовый грунт',
     soilType3: 'Орхидейный субстрат',
-    soilType4Custom: 'Пользовательский вид почвы',
+    soilType4Custom: 'Другое (Напишите свой вид почвы)',
 
     sunlightType: 'Тип освещения',
-    sunlightType1: 'Естественное освещение',
-    sunlightType2: 'Флуоресцентное освещение',
-    sunlightType3: 'Cветодиодное (LED) освещение',
+    sunlightType1: 'Естественное освещение (Солнечное освещение)',
+    sunlightType2: 'Флуоресцентное освещение (Специальные лампы для растений)',
+    sunlightType3: 'Cветодиодное (LED) освещение (Домашнее освещение)',
 
     sideType: 'Сторона',
     sideType1: 'Солнечная сторона',
     sideType2: 'Темная сторона',
 
     lastWateredDate: 'Дата последнего полива',
+    nextWateredDate: 'Следующий полив:',
     potSize: 'Размер горшка (необязательно)',
 
     add: 'Добавить',
