@@ -10,8 +10,8 @@ const translations = {
     userGarden: 'My garden',
     mainHeroTitle: (
       <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-[#4CAF50]">
-        Transform your <span className="text-[#0A6847]">home garden</span> with
-        ease
+        Get <span className="text-[#0A6847]">best Recommendations</span> on
+        plant care
       </h1>
     ),
     mainHeroSubtitle: 'Do not miss any detail in plant care.',
