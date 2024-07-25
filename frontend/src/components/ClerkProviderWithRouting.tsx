@@ -2,6 +2,8 @@
 
 import { ClerkProvider } from '@clerk/nextjs'
 import { useParams, useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { useAuth } from '@clerk/nextjs'
 
 export function ClerkProviderWithRouting({
   children
@@ -13,16 +15,30 @@ export function ClerkProviderWithRouting({
   const lang = (params.lang as string) || 'en'
 
   return (
-    <ClerkProvider
-      navigate={(to: any) => {
-        if (to === '/') {
-          router.push(`/${lang}`)
-        } else {
-          router.push(to)
-        }
-      }}
-    >
-      {children}
+    <ClerkProvider>
+      <AuthHandler lang={lang} router={router}>
+        {children}
+      </AuthHandler>
     </ClerkProvider>
   )
+}
+
+function AuthHandler({
+  children,
+  lang,
+  router
+}: {
+  children: React.ReactNode
+  lang: string
+  router: any
+}) {
+  const { isLoaded, userId } = useAuth()
+
+  useEffect(() => {
+    if (isLoaded && userId) {
+      router.push(`/${lang}`)
+    }
+  }, [isLoaded, userId, lang, router])
+
+  return <>{children}</>
 }
