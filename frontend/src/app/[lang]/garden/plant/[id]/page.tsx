@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import Header from '@/components/Header/index'
 import Footer from '@/components/Footer/footer'
 import Image from 'next/image'
-import { useAuth } from '@/context/AuthContext'
 import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress'
 import WateringCalendar from '@/components/WateringCalendar/index'
@@ -40,12 +39,7 @@ interface Garden {
 
 export default function Component() {
   const { id } = useParams()
-  const { user, setRedirectedFrom, clearRedirectedFrom, redirectedFrom } =
-    useAuth()
-  const router = useRouter()
   const [plantInfo, setPlantInfo] = useState<Plant | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [open, setOpen] = useState(false)
   const { locale, t } = useTranslation()
 
   useEffect(() => {
@@ -64,22 +58,6 @@ export default function Component() {
     } catch (error) {
       console.error('Error fetching plant info:', error)
     }
-  }
-
-  const redirectToLogin = () => {
-    if (typeof window !== 'undefined') {
-      setRedirectedFrom(window.location.pathname)
-    }
-    router.push('/signin')
-  }
-
-  const handleAddToGarden = () => {
-    if (!user) {
-      redirectToLogin()
-      return
-    }
-
-    setOpen(true)
   }
 
   if (!plantInfo) {
