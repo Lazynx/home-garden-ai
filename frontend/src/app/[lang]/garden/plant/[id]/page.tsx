@@ -100,6 +100,9 @@ export default function Component() {
                 </p>
               </div>
               <div className="grid gap-2">
+                <h2 className="text-xl font-bold tracking-tighter sm:text-3xl md:text-4xl text-[#4CAF50]">
+                  {t('careRecommendationsOne')}:
+                </h2>
                 <div className="flex items-center gap-2">
                   <svg
                     className="h-6 w-6 text-[#4CAF50]"

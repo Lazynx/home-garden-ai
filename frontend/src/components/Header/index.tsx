@@ -310,7 +310,9 @@ export default function Header({ bgColor }: HeaderProps) {
           >
             <Select
               value={languageOptions.find((option) => option.value === locale)}
-              onChange={(selectedOption: any) => handleLocaleChange(selectedOption)}
+              onChange={(selectedOption: any) =>
+                handleLocaleChange(selectedOption)
+              }
               options={languageOptions}
               styles={customStyles}
               formatOptionLabel={formatOptionLabel}
@@ -439,12 +441,11 @@ export default function Header({ bgColor }: HeaderProps) {
           <SignedIn>
             <Link
               href={`/${locale}/garden/${user?.id}`}
-              className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
+              className="text-base font-bold text-[#4CAF50] hover:underline underline-offset-4"
               prefetch={false}
             >
               {t('userGarden')}
             </Link>
-            <UserButton />
           </SignedIn>
           <FormControl
             variant="outlined"
@@ -453,7 +454,9 @@ export default function Header({ bgColor }: HeaderProps) {
           >
             <Select
               value={languageOptions.find((option) => option.value === locale)}
-              onChange={(selectedOption: any) => handleLocaleChange(selectedOption)}
+              onChange={(selectedOption: any) =>
+                handleLocaleChange(selectedOption)
+              }
               options={languageOptions}
               styles={customStyles}
               formatOptionLabel={formatOptionLabel}
