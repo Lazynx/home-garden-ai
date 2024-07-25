@@ -327,13 +327,6 @@ export default function Header({ bgColor }: HeaderProps) {
             </Link>
           </SignedOut>
           <SignedIn>
-            {/* <UserButton>
-              <UserButton.UserProfileLink
-                label="My garden"
-                url={`/${locale}/garden/${user?.id}`}
-                labelIcon={null}
-              />
-            </UserButton> */}
             <Link
               href={`/${locale}/garden/${user?.id}`}
               className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
@@ -443,6 +436,16 @@ export default function Header({ bgColor }: HeaderProps) {
               {t('login')}
             </Link>
           </SignedOut>
+          <SignedIn>
+            <Link
+              href={`/${locale}/garden/${user?.id}`}
+              className="text-sm font-medium hover:underline underline-offset-4 text-[#4CAF50] mr-5"
+              prefetch={false}
+            >
+              {t('userGarden')}
+            </Link>
+            <UserButton />
+          </SignedIn>
           <FormControl
             variant="outlined"
             className="mr-5"
