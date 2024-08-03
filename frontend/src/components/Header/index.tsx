@@ -13,6 +13,7 @@ import {
   UserButton,
   useUser
 } from '@clerk/nextjs'
+import Image from 'next/image'
 
 interface HeaderProps {
   bgColor: string
@@ -124,6 +125,14 @@ export default function Header({ bgColor }: HeaderProps) {
               className="flex items-center"
               prefetch={false}
             >
+              {/* <Image
+                src="/images/icon-logo.jpg"
+                className="object-center"
+                style={{ borderRadius: '50%' }}
+                alt="My Photo"
+                width={34}
+                height={34}
+              /> */}
               <svg
                 className="h-6 w-6 text-[#4CAF50]"
                 xmlns="http://www.w3.org/2000/svg"
