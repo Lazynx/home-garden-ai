@@ -20,7 +20,7 @@
 		"dotenv": "^16.4.5",
 		"express": "^4.19.2",
 		"express-session": "^1.18.0",
-		"express-sessions": "^1.0.6",
+		"express-sessions": "^1.0.1",
 		"jsonwebtoken": "^9.0.2",
 		"mongoose": "^8.4.1",
 		"morgan": "^1.10.0",
